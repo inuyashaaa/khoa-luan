@@ -1,0 +1,28 @@
+{
+  "name": "learn-by-hard",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "illuminati",
+  "license": "MIT",
+  "scripts": {
+    "start": "pm2 start src/index.js -i 0 --name 'nodeapp'",
+    "stop": "pm2 stop nodeapp",
+    "restart": "pm2 restart nodeapp",
+    "delete": "pm2 delete nodeapp",
+    "start:dev": "pm2-dev src/index.js",
+    "serve:dev": "pm2-dev src/index.js",
+    "debug": "node --inspect src/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "1.0.3",
+    "koa": "2.5.0",
+    "koa-bodyparser": "4.2.0",
+    "koa-router": "7.4.0",
+    "koa-static": "4.0.2",
+    "koa-views": "6.1.4",
+    "mongoose": "5.0.11",
+    "nunjucks": "3.1.2",
+    "nunjucks-date-filter-local": "0.1.2",
+    "pm2": "2.10.1"
+  }
+}

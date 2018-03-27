@@ -1,0 +1,23 @@
+#menu-vertical li{
+  text-align: left;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.news{
+  padding-left: 10px;
+  margin-top: 2px;
+  border-radius: 5px;
+  border: 3px solid #4DB6AC;
+}
+
+
+.title{
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.imageNews {
+  max-width: 100%;
+  border-radius: 5px;
+}
