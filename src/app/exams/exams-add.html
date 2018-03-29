@@ -1,0 +1,54 @@
+{% extends "_layout/layout.html" %}
+{% block content %}
+<div class="row" style="margin-top: 10px;">
+  <form action="/add-exams" method="POST" class="col s12" role="form">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id="nameInput" type="text" name="name" class="validate">
+        <label for="nameInput">Name</label>
+      </div>
+      
+      <div class="input-field col s12">
+        <input id="schoolInput" type="text" name="school" class="validate">
+        <label for="schoolInput">School</label>
+      </div>
+      
+      <div class="input-field col s12">
+        <input id="subjectInput" type="text" name="subject" class="validate">
+        <label for="subjectInput">Subject</label>
+      </div>
+      
+      <div class="input-field col s12">
+        <input id="numberOfQuestion" type="number" name="numberOfQuestions" class="validate">
+        <label for="numberOfQuestion">Number of question</label>
+      </div>
+      
+      <!-- <div class="input-field col s12">
+        <input id="quotes" type="text" name="answers" class="validate">
+        <label for="quotes">Quotes</label>
+      </div> -->
+      
+      <!-- <div class="input-field col s12">
+        <input id="quotes" type="text" name="quote" class="validate">
+        <label for="quotes">Quotes</label>
+      </div> -->
+      
+      <div class="input-field col s12">
+        <input id="levelInput" type="text" name="level" class="validate">
+        <label for="levelInput">Level</label>
+      </div>
+      
+      <div class="input-field col s12">
+        <input id="yearInput" type="text" name="year" class="validate">
+        <label for="yearInput">Year</label>
+      </div>
+
+      <div class="col s12 center-align">
+        <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Save Exams
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

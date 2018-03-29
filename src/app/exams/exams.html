@@ -1,0 +1,77 @@
+{% extends "_layout/layout.html" %}
+{% block cssCustom %}
+<link rel="stylesheet" href="/css/exam.css">
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col s9 l9">
+    <object type="application/pdf" width="100%" height="1400px" data="/exams/Math/Đề thi môn Toán Sở GD Hải Dương.pdf?#zoom=120&scrollbar=0&toolbar=0&navpanes=0"
+      id="pdf_content">
+      <p>ERROR</p>
+    </object>
+  </div>
+  <div class="col s3 l3">
+    <div class="container">
+      <div class="timer green">
+        <div class="cell">
+          <div class="numbers tenminute moveten">0 1 2 3 4 5 6 7 8 9</div>
+        </div>
+        <div class="cell">
+          <div class="numbers minute moveten">0 1 2 3 4 5 6 7 8 9</div>
+        </div>
+        <div class="cell divider green ">
+          <div class="numbers">:</div>
+        </div>
+        <div class="cell">
+          <div class="numbers tensecond movesix">0 1 2 3 4 5 6</div>
+        </div>
+        <div class="cell">
+          <div class="numbers second moveten">0 1 2 3 4 5 6 7 8 9</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <form id="answer-form" class="" action="/result" method="post">
+        {% for i in range(1, 51) -%}
+        <br>{% if i < 10 %}0{% endif %}{{ i }}.
+        <input type="radio" name="q{{ i }}" value="A" id="{{ i }}_A">
+        <label for="{{ i }}_A">A </label>
+        <input type="radio" name="q{{ i }}" value="B" id="{{ i }}_B">
+        <label for="{{ i }}_B">B </label>
+        <input type="radio" name="q{{ i }}" value="C" id="{{ i }}_C">
+        <label for="{{ i }}_C">C </label>
+        <input type="radio" name="q{{ i }}" value="D" id="{{ i }}_D">
+        <label for="{{ i }}_D">D </label>
+        {%- endfor %}
+        <br>
+        <input type="hidden" name="nameOfExam" value="{{ nameOfExam }}">
+        <div class="divider"></div>
+        <br>
+        <input class="btn" id="submit-answer-button" type="submit" value="Nộp bài thi">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block jsCustom %}
+  <script>
+    // (function (cbFb) {
+    //   cbFb(window.jQuery, window)
+    // })(function ($, window) {
+    //   $(pageExamsReaddy)
+
+    //   function pageExamsReaddy() {
+    //     setInterval(myTimer, 30000)
+        
+    //     function myTimer() {
+    //       alert("Đã hết thời gian !")
+    //       setInterval(redirect, 1000)
+    //     }
+    //     function redirect() {
+    //       $('#submit-answer-button').trigger('click')
+    //     }
+    //   }
+    // })
+  </script>
+{% endblock %}

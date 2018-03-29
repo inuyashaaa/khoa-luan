@@ -1,0 +1,146 @@
+{% extends "_layout/layout.html" %}
+{% block cssCustom %}
+<link rel="stylesheet" href="/css/result.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s2 l2">
+  </div>
+  <div class="col s8 l8">
+    <div>
+      <div class="center-align">
+        <i class="fa fa-cubes fa-3x" aria-hidden="true"></i> Result
+      </div>
+    </div>
+    <br>
+    <br>
+    <div id="name_of_exam">
+      <div>
+        <i class="fa fa-newspaper-o fa-2x" aria-hidden="true"></i>
+        <span>{{ examName }}</span>
+      </div>
+    </div>
+    <hr>
+    <div id="point">
+      <div>
+        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+        <span>Điểm bài thi: {{ score }}</span>
+      </div>
+    </div>
+    <hr>
+    <div id="point">
+      <div>
+        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+        <span>Số câu trả lời đúng: {{ numberOfTrueAnswer }}</span>
+      </div>
+    </div>
+    <hr>
+    <div id="point_bonus">
+      <div>
+        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+        <span>Điểm tích luỹ cộng thêm : {{ bonusPoint }}</span>
+      </div>
+    </div>
+    <hr>
+    <div id="total_point">
+      <div>
+        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+        <span>Điểm tích luỹ hiện tại: {{ newPoint }}</span>
+      </div>
+    </div>
+    <hr>
+    <div id="rank">
+      <div>
+        <i class="fa fa-star fa-2x" aria-hidden="true"></i>
+        <span>Rank:{{ rank }}</span>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <i class="fa fa-table fa-2x" aria-hidden="true"></i>
+      <span>Đáp án</span>
+    </div>
+    <div class="row">
+      <div class="col s3 l3">
+        <table>
+          <tr>
+            <th>Câu hỏi</th>
+            <th>ĐA bạn chọn</th>
+            <th>Câu trả lời</th>
+          </tr>
+          {% for answer in range(1, 14) %}
+            <tr>
+              <td>{{ answer }}</td>
+              <td>{{ answersUser[answer - 1] }}</td>
+              <td>{{ trueAnswer[answer - 1] }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div class="col s3 l3">
+        <table>
+          <tr>
+            <th>Câu hỏi</th>
+            <th>ĐA bạn chọn</th>
+            <th>Câu trả lời</th>
+          </tr>
+          {% for answer in range(14, 27) %}
+          <tr>
+            <td>{{ answer }}</td>
+            <td>{{ answersUser[answer - 1] }}</td>
+            <td>{{ trueAnswer[answer - 1] }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div class="col s3 l3">
+        <table>
+          <tr>
+            <th>Câu hỏi</th>
+            <th>ĐA bạn chọn</th>
+            <th>Câu trả lời</th>
+          </tr>
+          {% for answer in range(27, 40) %}
+          <tr>
+            <td>{{ answer }}</td>
+            <td>{{ answersUser[answer - 1] }}</td>
+            <td>{{ trueAnswer[answer - 1] }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      <div class="col s3 l3">
+        <table>
+          <tr>
+            <th>Câu hỏi</th>
+            <th>ĐA bạn chọn</th>
+            <th>Câu trả lời</th>
+          </tr>
+          {% for answer in range(40, 51) %}
+          <tr>
+            <td>{{ answer }}</td>
+            <td>{{ answersUser[answer - 1] }}</td>
+            <td>{{ trueAnswer[answer - 1] }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td>51</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>52</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col s3 l3">
+    </div>
+  </div>
+  
+{% endblock %}
+
+
