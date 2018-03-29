@@ -12,6 +12,7 @@ const config = require(path.resolve(__dirname, '../config'))
 const homeModule = require(path.resolve(__dirname, './home'))
 const authModule = require(path.resolve(__dirname, './auth'))
 const dashboardModule = require(path.resolve(__dirname, './dashboard'))
+const quoteModule = require(path.resolve(__dirname, './quotes'))
 
 const { cookie: { signKeys } } = config
 const app = new Koa()
@@ -34,6 +35,7 @@ const passport = authModule.initAuthStrategies()
 homeModule.init(router)
 authModule.init(router, passport)
 dashboardModule.init(router)
+quoteModule.init(router)
 
 app.proxy = true
 app.keys = signKeys.split(',')

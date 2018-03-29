@@ -32,18 +32,18 @@ function initAuth (router, passport) {
     postGoogleLoginHandler
   )
 
-  function displayLoginForm (ctx) {
-    if (ctx.isAuthenticated()) {
-      return ctx.redirect('/')
-    }
-    const {message = undefined} = Object.assign({}, ctx.session.flash)
-    if (ctx.session.flash && ctx.session.flash.message) {
-      delete ctx.session.flash.message
-    }
-    return ctx.render('home/home', {
-      errorMessage: message
-    })
-  }
+  // function displayLoginForm (ctx) {
+  //   if (ctx.isAuthenticated()) {
+  //     return ctx.redirect('/')
+  //   }
+  //   const {message = undefined} = Object.assign({}, ctx.session.flash)
+  //   if (ctx.session.flash && ctx.session.flash.message) {
+  //     delete ctx.session.flash.message
+  //   }
+  //   return ctx.render('home/home', {
+  //     errorMessage: message
+  //   })
+  // }
 
   function doLogout (ctx) {
     ctx.logout()

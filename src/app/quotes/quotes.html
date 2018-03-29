@@ -1,0 +1,19 @@
+{% extends "_layout/layout.html" %}
+
+{% block content %}
+  <div class="row" style="margin-top: 10px;">
+    <form action="/quotes" method="POST" class="col s12" role="form">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="quotes" type="text" name="quote" class="validate">
+          <label for="quotes">Quotes</label>
+        </div>
+        <div class="col s12 center-align">
+          <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Save Quotes
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

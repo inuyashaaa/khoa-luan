@@ -19,8 +19,8 @@
       }, 'slow')
     }
     // $('.button-collapse').sideNav()
-    // $('.block_slidedown:eq(0)').slideDown('slow')
-    // $('.block_slidedown:eq(1)').slideDown('slow')
-    // $('.block_slidedown:eq(2)').slideDown(2000)
+    $('.block_slidedown:eq(0)').slideDown('slow')
+    $('.block_slidedown:eq(1)').slideDown('slow')
+    $('.block_slidedown:eq(2)').slideDown(2000)
   }
 })
