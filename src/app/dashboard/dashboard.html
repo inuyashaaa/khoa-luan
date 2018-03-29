@@ -1,0 +1,224 @@
+{% extends "_layout/layout.html" %}
+{% block cssCustom %}
+<link rel="stylesheet" type="text/css" href="/css/home.css">
+{% endblock %}
+
+{% block content %}  
+<div class="wrapper-nav">
+  <nav class="teal lighten-2 menu-holizontal" id="nav">
+    <ul class="left">
+      <li class="active">
+        <a href="/home/math">
+          <i class="fa fa-book icon_of_menu_holizontal" aria-hidden="true"></i> Môn Học</a>
+      </li>
+      <li>
+        <a href="/progess/?subject=math">
+          <i class="fa fa-bar-chart icon_of_menu_holizontal" aria-hidden="true"></i> Tiến Trình</a>
+      </li>
+      <li>
+        <a href="/news">
+          <i class="fa fa-newspaper-o icon_of_menu_holizontal" aria-hidden="true"></i> Tin Tức</a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Diễn đàn</a>
+      </li>
+    </ul>
+    <div class="right" style="max-height:100%">
+      <span id='block_avatar'>
+        <img id='avatar' src="{{ user.avatar }}" alt="avatar"> {{ user.username }}
+        <i class="fa fa-caret-down dropdown-button" aria-hidden="true" data-beloworigin="true" data-activates='dropdown' style="height:15px"></i>
+        <ul class='dropdown-content' id='dropdown'>
+          <li>
+            <a href="/logout">Logout</a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </nav>
+</div>
+
+<br>
+<div class="divider"></div>
+
+<div class="row">
+  <div class="col s2 l2">
+    <div id="menu-vertical" class="teal lighten-2">
+      <ul>
+        <li>
+          <a href="/home/math">Toán</a>
+        </li>
+        <li>
+          <a href="/home/phy">Lý</a>
+        </li>
+        <li>
+          <a href="/home/chem">Hoá</a>
+        </li>
+        <li>
+          <a href="/home/bio">Sinh</a>
+        </li>
+        <li>
+          <a href="/home/eng">Anh</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col s8 l8">
+    <div class="row">
+      <div class="col s12 l12">
+        <div id="quote" class="block_slidedown">
+          <blockquote>
+            Quote' today:
+            <br> {{ quote }}
+            <br>
+          </blockquote>
+        </div>
+        <br>
+        <div id="search" class="block_slidedown">
+          <div class="">
+            <i class="fa fa-search" aria-hidden="true">Tìm Kiếm</i>
+            <div class="row">
+              <div class="col s8 l10">
+                <input type="text" id="key" onkeydown="onEnterKey()">
+              </div>
+              <div class="col s4 l2">
+                <div class="btn" onclick="search()">Tìm</div>
+              </div>
+            </div>
+            <div id="result">
+
+            </div>
+          </div>
+        </div>
+        <br>
+        <div id="exams" class="block_slidedown">
+          <h6> Danh sách đề thi:</h6>
+
+          <h6>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i> Dễ</h6>
+          <ul class="collapsible" data-collapsible="accordion">
+            <li class='checkFirst'>
+              <div class="collapsible-header name_of_exam">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{name}}</div>
+              <div class="collapsible-body">
+                <i class="fa fa-eye right fa-1x " aria-hidden="true"></i>
+                <div>Facebook is an American for-profit corporation and an online social media and social networking service based
+                  in Menlo Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along
+                  with fellow Harvard College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz,
+                  and Chris Hughes.</div>
+                <div class="center">
+                  <a class="waves-effect waves-light btn" href="/exam/?nameOfExam={{name}}&subject={{subject}}">Làm đề</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <h6>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            Trung bình</h6>
+          <ul class="collapsible" data-collapsible="accordion">
+            <li class='checkFirst'>
+              <div class="collapsible-header name_of_exam">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{this.name}}</div>
+              <div class="collapsible-body">
+                <i class="fa fa-eye right fa-1x" aria-hidden="true"></i>
+                <div>Facebook is an American for-profit corporation and an online social media and social networking service based
+                  in Menlo Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along
+                  with fellow Harvard College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz,
+                  and Chris Hughes.</div>
+                <div class="center">
+                  <a class="waves-effect waves-light btn" href="/exam/?nameOfExam={{this.name}}&subject={{subject}}">Làm đề</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <h6>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            Khó</h6>
+          <ul class="collapsible" data-collapsible="accordion">
+            <li class='checkFirst'>
+              <div class="collapsible-header name_of_exam">
+                <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{this.name}}</div>
+              <div class="collapsible-body">
+                <i class="fa fa-eye right" aria-hidden="true"></i>
+                <div>Facebook is an American for-profit corporation and an online social media and social networking service based
+                  in Menlo Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along
+                  with fellow Harvard College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz,
+                  and Chris Hughes.</div>
+                <div class="center">
+                  <a class="waves-effect waves-light btn" href="/exam/?nameOfExam={{this.name}}&subject={{subject}}">Làm đề</a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s2 l2">
+    <h6 class='center'>
+      <i class="fa fa-star-half-o yellow-text fa-lg" aria-hidden="true"></i> Top Ranking</h3>
+      <div class="divider"></div>
+      <table class="striped">
+        <tbody>
+        </tbody>
+      </table>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block jsCustom %}
+  <!-- <script type="text/javascript">
+    var search = function () {
+      var key = $('#key').val();
+      $('#result a').remove();
+      var element = $('.name_of_exam');
+      var value = '';
+      // search
+      for (var i = 0; i <= element.length; i++) {
+        value = $(element[i]).text();
+        if (value.includes(key)) {
+          $('#result').append('<a class="waves-effect waves-light btn" href="/exam/?nameOfExam=' + value + '">' + value + '</a>')
+        }
+      }
+    }
+  </script>
+  
+  <script type="text/javascript">
+    var onEnterKey = function () {
+      if (event.keyCode == 13) {
+        search();
+      }
+    }
+  </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.checkFirst').click(function () {
+        var thisVariable = $(this);
+        $.ajax({
+          url: "../checkFirst",
+          type: "post",
+          dataType: "json",
+          data: {
+            name: $(this).find('.name_of_exam').text()
+          },
+          success: function (result) {
+            if (!result.check) {
+              thisVariable.find('.fa-eye').addClass('teal-text text-lighten-2');
+            }
+          }
+        })
+      })
+    })
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.collapsible').collapsible();
+    });
+  </script> -->
+{% endblock %}

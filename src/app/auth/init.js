@@ -9,18 +9,25 @@ function initAuth (router, passport) {
     prompt: 'consent'
   })
   const postGoogleLoginHandler = passport.authenticate('google', {
-    successRedirect: '/',
-    failureRedirect: '/login.html',
-    failureFlash: true
+    successRedirect: '/home',
+    failureRedirect: '/',
+    failureFlash: 'Đăng nhập không thành công',
+    successFlash: 'Bạn đã đăng nhập thành công'
+  })
+  const passportLoginLocal = passport.authenticate('local', {
+    successRedirect: '/home',
+    failureRedirect: '/',
+    failureFlash: 'Đăng nhập không thành công',
+    successFlash: 'Bạn đã đăng nhập thành công'
   })
 
-  router.get('login', '/login.html', redirectToDaskboadIfAuthenticated, displayLoginForm)
-  router.get('/logout', doLogout)
-  router.get('/auth/google',
+  router.post('login', '/login', redirectToDaskboadIfAuthenticated, passportLoginLocal)
+  router.get('logout', '/logout', doLogout)
+  router.get('auth:google', '/auth/google',
     redirectToDaskboadIfAuthenticated,
     redirectToGooglePageLogin
   )
-  router.get('/auth/google/callback',
+  router.get('auth:google:callback', '/auth/google/callback',
     redirectToDaskboadIfAuthenticated,
     postGoogleLoginHandler
   )
@@ -33,18 +40,18 @@ function initAuth (router, passport) {
     if (ctx.session.flash && ctx.session.flash.message) {
       delete ctx.session.flash.message
     }
-    return ctx.render('auth/login', {
+    return ctx.render('home/home', {
       errorMessage: message
     })
   }
 
   function doLogout (ctx) {
     ctx.logout()
-    ctx.redirect('/login.html')
+    ctx.redirect('/')
   }
 
   async function redirectToDaskboadIfAuthenticated (ctx, next) {
-    if (ctx.isAuthenticated()) return ctx.redirect('/')
+    if (ctx.isAuthenticated()) return ctx.redirect('/home')
     return next()
   }
 }

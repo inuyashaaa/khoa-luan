@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 
-var usersSchema = new Schema({
+const usersSchema = new Schema({
   id: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, minlength: 6 },
@@ -14,7 +14,7 @@ var usersSchema = new Schema({
       validate: {
         validator:
           (value) => {
-            var regex = /@/
+            const regex = /@/
             return regex.test(value)
           },
         message: '{VALUE} is not valid email'
@@ -30,18 +30,22 @@ var usersSchema = new Schema({
 
 usersSchema.pre('save', function (next) {
   var user = this
-  console.log('this is user', user)
-
   if (!user.isModified('password')) {
     return next()
   }
 
   bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      return
+    }
     bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) {
+        return
+      }
       user.password = hash
       next()
     })
   })
 })
 
-module.exports = mongoose.model('users', usersSchema)
+module.exports = mongoose.model('User', usersSchema)

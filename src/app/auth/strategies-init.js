@@ -1,8 +1,13 @@
+'use strict'
+
 const path = require('path')
 
 const passport = require('koa-passport')
+const bcrypt = require('bcrypt')
+
+const User = require('../model/user')
+const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
-const knex = require('../knex')
 
 const {passport: {google}} = require(path.resolve(__dirname, '../../config/index'))
 
@@ -14,23 +19,51 @@ const googleStrategy = new GoogleStrategy({
   prompt: 'consent'
 }, verifyUserCredentials)
 
+passport.use(new LocalStrategy(
+  (username, password, done) => {
+    User.findOne({ username: username }, (err, user) => {
+      if (err) {
+        return
+      }
+      if (user) {
+        bcrypt.compare(password, user.password, (err, same) => {
+          if (err) {
+            return
+          }
+          if (same) {
+            return done(null, user)
+          }
+          return done(null, false)
+        })
+      }
+      return done(null, false)
+    })
+  }))
 passport.use(googleStrategy)
 passport.serializeUser(persitToStorage)
 passport.deserializeUser(loadUserFromStorageToAppContext)
 
-function persitToStorage (email, done) {
-  done(null, email)
+function persitToStorage (user, done) {
+  done(null, user.email)
 }
 
 async function loadUserFromStorageToAppContext (email, done) {
+  console.log(email)
+
   try {
-    const user = await knex.select().from('users').where('email', email).first()
-    if (!user.email) {
-      return done(null, false, {
-        message: 'Can not find user'
-      })
-    }
-    return done(null, user)
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        return done(null, false, {
+          message: 'Opp!!! Sonething went wrong!'
+        })
+      }
+      if (!user.email) {
+        return done(null, false, {
+          message: 'Can not find user'
+        })
+      }
+      return done(null, user)
+    })
   } catch (err) {
     if (err.response && err.response.status === 401) {
       return done(null, false, {message: 'No find user'})
@@ -40,32 +73,47 @@ async function loadUserFromStorageToAppContext (email, done) {
 }
 
 async function verifyUserCredentials (token, refreshToken, profile, done) {
+  console.log(profile)
+
   const email = profile.emails[0].value
-  const isVnextEmail = /@vnext\..*/gi.test(email)
-  if (!isVnextEmail) {
-    return done(null, false, {
-      message: `Opps!!! ${email} domain is not support.
-        Please login with 'email.vnext.vn' or 'email.vnext.com.vn'`
-    })
-  }
-  const username = email.split('@').shift()
-  const avatar = profile.photos[0].value
-  const user = await findOrCreateUser({username, email, avatar})
-  done(null, user.email)
+  // done(null, profile)
+  User.findOne({ email: email }, (error, user) => {
+    if (error) return 0
+    if (user) {
+      return done(null, user)
+    }
+    const newUser = {
+      username: profile.displayName !== '' ? profile.displayName : profile.id,
+      email: profile.emails[0].value,
+      avatar: profile.photos ? profile.photos[0].value : '/img/faces/unknown-user-pic.jpg',
+      password: 12345678
+    }
+    User.findOne({})
+      .select('id')
+      .sort({ id: -1 })
+      .exec((err, doc) => {
+        if (err) {
+          console.log(err)
+        } else {
+          var id
+          if (doc && doc.id) {
+            id = doc.id + 1
+          } else {
+            id = 1
+          }
+          newUser.id = id
+          User.create(newUser, (err, doc) => {
+            if (err) {
+              console.log(err)
+              console.log('message', err.message)
+              console.log('error message', err.errmsg)
+            } else {
+              return done(null, doc)
+            }
+          })
+        }
+      })
+  })
 }
 
 module.exports = _ => passport
-
-async function findOrCreateUser ({username, email, avatar}) {
-  let user
-  user = await knex.select().from('users').where('email', email).first()
-  if (!user) {
-    user = await knex('users').insert({username, email, avatar})
-    if (!user.length) {
-      return false
-    }
-    user = await knex.select().from('users').where('email', email).first()
-    return user
-  }
-  return user
-}

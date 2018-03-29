@@ -17,12 +17,25 @@
     "bcrypt": "1.0.3",
     "koa": "2.5.0",
     "koa-bodyparser": "4.2.0",
+    "koa-convert": "1.2.0",
+    "koa-generic-session": "2.0.1",
+    "koa-generic-session-mongo": "0.4.0",
+    "koa-passport": "4.0.1",
     "koa-router": "7.4.0",
+    "koa-session": "5.8.1",
     "koa-static": "4.0.2",
     "koa-views": "6.1.4",
     "mongoose": "5.0.11",
+    "node-gyp": "3.6.2",
     "nunjucks": "3.1.2",
     "nunjucks-date-filter-local": "0.1.2",
+    "passport-facebook": "2.1.1",
+    "passport-google-auth": "1.0.2",
+    "passport-google-oauth": "1.0.0",
+    "passport-local": "1.0.0",
     "pm2": "2.10.1"
+  },
+  "devDependencies": {
+    "dotenv": "5.0.1"
   }
 }

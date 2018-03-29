@@ -9,8 +9,11 @@
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
+    {% block cssLib %} {% endblock %}
+
     <link rel="stylesheet" type="text/css" href="/css/home.css">
     <link rel="stylesheet" type="text/css" href="/css/index.css">
+    {% block cssCustom %}{% endblock %}
 </head>
 
 <body>
@@ -23,6 +26,9 @@
 
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/materialize.min.js"></script>
+{% block jsLib %}{% endblock %}
+
 <script src="/js/init.js"></script>
+{% block jsCustom %}{% endblock %}
 </body>
 </html>

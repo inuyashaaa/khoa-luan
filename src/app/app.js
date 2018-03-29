@@ -4,23 +4,47 @@ const path = require('path')
 const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
+const mongoose = require('mongoose')
 const createStaticServeMiddleware = require('koa-static')
+const createSessionMiddleware = require('koa-session')
 
+const config = require(path.resolve(__dirname, '../config'))
+const homeModule = require(path.resolve(__dirname, './home'))
+const authModule = require(path.resolve(__dirname, './auth'))
+const dashboardModule = require(path.resolve(__dirname, './dashboard'))
+
+const { cookie: { signKeys } } = config
 const app = new Koa()
 const router = new Router()
 const views = initViews({ router })
 const staticServeMiddleware = createStaticServeMiddleware(
   path.resolve(__dirname, '../public')
 )
+const sessionMiddleware = createSessionMiddleware({ maxAge: 7200000, renew: true }, app)
+mongoose.connect(config.db.host, (err) => {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log('Connect DB success !')
+  }
+})
 
-const homeModule = require(path.resolve(__dirname, './home'))
-
+const passport = authModule.initAuthStrategies()
 // Init Router
 homeModule.init(router)
+authModule.init(router, passport)
+dashboardModule.init(router)
 
+app.proxy = true
+app.keys = signKeys.split(',')
 app
+  .use(flashMiddleware)
   .use(staticServeMiddleware)
+  .use(sessionMiddleware)
+  .use(bodyParser())
   .use(views)
+  .use(passport.initialize())
+  .use(passport.session())
   .use(router.routes())
   .use(router.allowedMethods())
 
@@ -44,4 +68,11 @@ function initViews ({ router }) {
       nunjucksEnv: env
     }
   })
+}
+
+function flashMiddleware (ctx, next) {
+  ctx.flash = function (type, msg) {
+    ctx.session.flash = { type: type, message: msg }
+  }
+  return next()
 }
