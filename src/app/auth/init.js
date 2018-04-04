@@ -9,13 +9,13 @@ function initAuth (router, passport) {
     prompt: 'consent'
   })
   const postGoogleLoginHandler = passport.authenticate('google', {
-    successRedirect: '/home',
+    successRedirect: '/home/math',
     failureRedirect: '/',
     failureFlash: 'Đăng nhập không thành công',
     successFlash: 'Bạn đã đăng nhập thành công'
   })
   const passportLoginLocal = passport.authenticate('local', {
-    successRedirect: '/home',
+    successRedirect: '/home/math',
     failureRedirect: '/',
     failureFlash: 'Đăng nhập không thành công',
     successFlash: 'Bạn đã đăng nhập thành công'
@@ -51,7 +51,7 @@ function initAuth (router, passport) {
   }
 
   async function redirectToDaskboadIfAuthenticated (ctx, next) {
-    if (ctx.isAuthenticated()) return ctx.redirect('/home')
+    if (ctx.isAuthenticated()) return ctx.redirect('/home/math')
     return next()
   }
 }

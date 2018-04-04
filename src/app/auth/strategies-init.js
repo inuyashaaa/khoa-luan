@@ -5,7 +5,7 @@ const path = require('path')
 const passport = require('koa-passport')
 const bcrypt = require('bcrypt')
 
-const User = require('../model/user')
+const User = require('../user/model')
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
 

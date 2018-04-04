@@ -2,15 +2,16 @@
 
 const Exams = require('./model')
 const History = require('../history/model')
-const User = require('../model/user')
+const User = require('../user/model')
 
 module.exports = {
-  initExams
+  initExams,
+  getAllExamsBySubject
 }
 
 function initExams (router) {
   router.get('get:add:exams', '/add-exams.html', getFormAddExams)
-  router.get('get:do:exams', '/exams', getDoExams)
+  router.get('get:do:exams', '/exam', getDoExams)
   router.post('post:add:exams', '/add-exams', addExams)
   router.post('post:exams:result', '/result', getResultExams)
 }
@@ -24,10 +25,14 @@ async function getFormAddExams (ctx) {
 async function getDoExams (ctx) {
   const nameOfExam = ctx.query.nameOfExam
   const subject = ctx.query.subject
+
+  const exam = await Exams.findOne({ name: nameOfExam, subject: subject })
+
   return ctx.render('exams/exams', {
     pageTitle: 'Do Exams',
     nameOfExam,
-    subject
+    subject,
+    exam
   })
 }
 
@@ -48,14 +53,12 @@ async function addExams (ctx) {
       .select('id')
       .sort({ id: -1 })
       .exec()
-    console.log(data)
 
     let idExams = 1
     if (data && data.id) {
       idExams = data.id + 1
     }
     exams.id = idExams
-    console.log(exams)
 
     const dataCreate = await Exams.create(exams)
     if (dataCreate) {
@@ -77,7 +80,6 @@ async function addExams (ctx) {
 }
 
 async function getResultExams (ctx) {
-  const oldrank = ctx.req.user.rank // rank cu cua user
   let userAnswer = []
   userAnswer.push(ctx.request.body.q1)
   userAnswer.push(ctx.request.body.q2)
@@ -132,10 +134,10 @@ async function getResultExams (ctx) {
 
   // so sanh dap an
   try {
-    const exams = await Exams.findOne({ name: ctx.request.body.nameOfExam }).exec()
+    const exam = await Exams.findOne({ name: ctx.request.body.nameOfExam })
     let numberOfTrueAnswer = 0 // số đáp án đúng
     let arrayAnswer = [] // các đáp án đúng
-    exams.answers.map((trueAnswer, index) => {
+    exam.answers.map((trueAnswer, index) => {
       if (trueAnswer === userAnswer[index]) {
         arrayAnswer.push('True')
         numberOfTrueAnswer++
@@ -144,113 +146,62 @@ async function getResultExams (ctx) {
       }
     })
     let factor = 1 // Gan bang muc Easy
-    if (exams.level === 'medium') {
+    if (exam.level === 'medium') {
       factor = 1.5
     }
-    if (exams.level === 'difficult') {
+    if (exam.level === 'hard') {
       factor = 2
     }
 
-    // Tim xem trong history co exam day hay chua
-    const historyExams = await History.findOne({ idExam: exams.id, userIdCreated: ctx.req.user.id })
+    // Update point cho user
+    const bonusPoint = Math.round((numberOfTrueAnswer / exam.numberOfQuestions) * 10 * factor)
+    const score = Math.round((numberOfTrueAnswer / exam.numberOfQuestions) * 10)
+    const newPoint = bonusPoint + ctx.req.user.point
 
-    if (historyExams == null) {
-      let newPoint = Math.round((factor * numberOfTrueAnswer * 0.2 + ctx.req.user.point) * 1000) / 1000 // new point
-
-      // Update point cho user
-      await User.update({ username: ctx.req.user.username }, { point: newPoint })
-      const topUser = await User.find({}).sort({ point: -1 }).exec()
-      let topTenUser = []
-      topUser.map(async (user, index) => {
-        user.rank = index + 1
-        await User.update({ id: user.id }, { rank: index + 1 }).exec()
-        if (index < 10) {
-          topTenUser.push(user)
-        }
-      })
-
-      var data = {
-        answersUser: userAnswer, // đáp án người dùng nhập
-        numberOfTrueAnswer, // số đáp án đúng
-        arrayAnswer, // mảng gồm những câu đúng và sai
-        nowPoint: ctx.req.user.point, // point hiện tại của user
-        score: Math.round((numberOfTrueAnswer / exams.numberOfQuestions) * 10), // điểm bài thi
-        oldrank,
-        bonusPoint: Math.round((numberOfTrueAnswer / exams.numberOfQuestions) * 10 * factor),
-        newRank: ctx.req.user.rank,
-        newPoint: Math.round(ctx.req.user.point + (numberOfTrueAnswer / exams.numberOfQuestions) * 10 * factor),
-        trueAnswer: exams.answers,
-        examName: exams.name
+    await User.update({ username: ctx.req.user.username }, { point: newPoint })
+    const topUser = await User.find({}).sort({ point: -1 })
+    let topTenUser = []
+    topUser.map(async (user, index) => {
+      user.rank = index + 1
+      await User.update({ id: user.id }, { rank: index + 1 })
+      if (index < 10) {
+        topTenUser.push(user)
       }
+    })
 
-      const historyData = {
-        idExam: exams.id,
-        numberOfTrueAnswer: numberOfTrueAnswer,
-        userIdCreated: ctx.req.user.id,
-        rankUpdated: ctx.req.user.rank,
-        bonusPoint: data.bonusPoint,
-        level: exams.level,
-        subject: exams.subject,
-        score: Math.round((numberOfTrueAnswer / exams.numberOfQuestions) * 10),
-        name: exams.name,
-        school: exams.school
-      }
-
-      await History.create(historyData).exec()
-
-      return ctx.render('exams/result', {
-        answersUser: data.answersUser,
-        numberOfTrueAnswer: data.numberOfTrueAnswer,
-        arrayAnswer: data.arrayAnswer,
-        nowPoint: data.nowPoint,
-        score: data.score,
-        bonusPoint: data.bonusPoint,
-        newPoint: data.newPoint,
-        trueAnswer: data.trueAnswer,
-        examName: data.examName,
-        rank: data.newRank,
-        user: ctx.req.user
-      })
-      // update rank
-    } else {
-      var coreData = {
-        answersUser: userAnswer, // đáp án người dùng nhập
-        numberOfTrueAnswer, // số đáp án đúng
-        arrayAnswer, // mảng gồm những câu đúng và sai
-        nowPoint: ctx.req.user.point, // poit hiện tại của user
-        score: Math.round((numberOfTrueAnswer / exams.numberOfQuestions) * 10), // điểm bài thi
-        trueAnswer: exams.answers,
-        examName: exams.name,
-        rank: ctx.req.user.rank,
-        bonusPoint: 0
-      }
-
-      var coreHistory = {
-        idExam: exams.id,
-        numberOfTrueAnswer,
-        userIdCreated: ctx.req.user.id,
-        level: exams.level,
-        subject: exams.subject,
-        score: Math.round((numberOfTrueAnswer / exams.numberOfQuestions) * 10),
-        name: exams.name,
-        school: exams.school
-      }
-
-      await History.create(coreHistory)
-
-      return ctx.render('exams/result', {
-        answersUser: coreData.answersUser,
-        numberOfTrueAnswer: coreData.numberOfTrueAnswer,
-        arrayAnswer: coreData.arrayAnswer,
-        nowPoint: coreData.nowPoint,
-        score: coreData.score,
-        trueAnswer: coreData.trueAnswer,
-        examName: coreData.examName,
-        rank: coreData.rank,
-        bonusPoint: coreData.bonusPoint,
-        user: ctx.req.user
-      })
+    const historyData = {
+      idExam: exam.id,
+      numberOfTrueAnswer,
+      userIdCreated: ctx.req.user.id,
+      rankUpdated: ctx.req.user.rank,
+      bonusPoint,
+      level: exam.level,
+      subject: exam.subject,
+      score,
+      name: exam.name,
+      school: exam.school
     }
+    // Tim xem trong history co exam day hay chua
+    const historyExams = await History.findOne({ idExam: exam.id, userIdCreated: ctx.req.user.id })
+    if (historyExams) {
+      await History.update({ _id: historyExams._id }, {historyData})
+    } else {
+      await History.create(historyData)
+    }
+
+    return ctx.render('exams/result', {
+      userAnswer,
+      numberOfTrueAnswer,
+      arrayAnswer,
+      nowPoint: ctx.req.user.point,
+      score,
+      bonusPoint,
+      newPoint,
+      trueAnswer: exam.answers,
+      examName: exam.name,
+      rank: ctx.req.user.rank,
+      user: ctx.req.user
+    })
   } catch (error) {
     ctx.body = {
       success: false,
@@ -261,79 +212,7 @@ async function getResultExams (ctx) {
   }
 }
 
-// var getAllExamsOfMath = (cb) => {
-//   Exams.find({ subject: 'math' }, { name: 1, _id: 0, level: 1, id: 1 })
-//     .exec((err, doc) => {
-//       if (err) {
-//         cb(err)
-//         console.log('err')
-//       } else {
-//         cb(null, doc)
-//         console.log('ok')
-//       }
-//     })
-// }
-
-// var getAllExamsOfPhy = (cb) => {
-//   Exams.find({ subject: 'phy' }, { name: 1, _id: 0, level: 1 })
-//     .exec((err, doc) => {
-//       if (err) {
-//         cb(err)
-//         console.log('err')
-//       } else {
-//         cb(null, doc)
-//         console.log('ok')
-//       }
-//     })
-// }
-
-// var getAllExamsOfChem = (cb) => {
-//   Exams.find({ subject: 'chem' }, { name: 1, _id: 0, level: 1 })
-//     .exec((err, doc) => {
-//       if (err) {
-//         cb(err)
-//         console.log('err')
-//       } else {
-//         cb(null, doc)
-//         console.log('ok')
-//       }
-//     })
-// }
-
-// var getAllExamsOfBio = (cb) => {
-//   Exams.find({ subject: 'bio' }, { name: 1, _id: 0, level: 1 })
-//     .exec((err, doc) => {
-//       if (err) {
-//         cb(err)
-//         console.log('err')
-//       } else {
-//         cb(null, doc)
-//         console.log('ok')
-//       }
-//     })
-// }
-
-// var getAllExamsOfEng = (cb) => {
-//   Exams.find({ subject: 'eng' }, { name: 1, _id: 0, level: 1 })
-//     .exec((err, doc) => {
-//       if (err) {
-//         cb(err)
-//         console.log('err')
-//       } else {
-//         cb(null, doc)
-//         console.log('ok')
-//       }
-//     })
-// }
-
-// var getExamByName = (examName, cb) => {
-//   Exams.findOne({ name: examName })
-//     .exec((err, doc) => {
-//       if (err) {
-//         console.log(err)
-//         return cb(err)
-//       } else {
-//         return cb(null, doc)
-//       }
-//     })
-// }
+async function getAllExamsBySubject (subject) {
+  const exams = await Exams.find({ subject: subject })
+  return exams
+}
