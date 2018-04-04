@@ -13,4 +13,4 @@ const historySchema = new Schema({
   name: { type: String },
   school: { type: String }
 })
-module.exports = mongoose.model('history', historySchema)
+module.exports = mongoose.model('History', historySchema)

@@ -27,6 +27,7 @@ async function addNewQuotes (ctx) {
     message: 'Add quote success!!!',
     data
   }
+  return ctx.body
 }
 
 async function getRandomQuote () {

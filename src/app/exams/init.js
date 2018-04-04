@@ -33,16 +33,12 @@ async function getDoExams (ctx) {
 
 async function addExams (ctx) {
   let exams = {}
-  let arr = []
-  for (let i = 0; i < 50; i++) {
-    arr[i] = 'A'
-  }
   exams.name = ctx.request.body.name
   exams.school = ctx.request.body.school
   exams.subject = ctx.request.body.subject
   exams.numberOfQuestions = ctx.request.body.numberOfQuestions
-  exams.answers = arr
-  exams.examspath = 'ctx.request.body.examspath'
+  exams.answers = Array.from(ctx.request.body.answers)
+  exams.examspath = ctx.request.body.examspath
   exams.level = ctx.request.body.level
   exams.year = ctx.request.body.year
 
@@ -160,7 +156,6 @@ async function getResultExams (ctx) {
 
     if (historyExams == null) {
       let newPoint = Math.round((factor * numberOfTrueAnswer * 0.2 + ctx.req.user.point) * 1000) / 1000 // new point
-      console.log('Vao day')
 
       // Update point cho user
       await User.update({ username: ctx.req.user.username }, { point: newPoint })
@@ -242,7 +237,6 @@ async function getResultExams (ctx) {
       }
 
       await History.create(coreHistory)
-      console.log('Vao dau')
 
       return ctx.render('exams/result', {
         answersUser: coreData.answersUser,

@@ -13,4 +13,4 @@ var exams = new Schema({
   name: { type: String, required: true, unique: true }
 }, { timestamps: true })
 
-module.exports = mongoose.model('exams', exams)
+module.exports = mongoose.model('Exams', exams)

@@ -5,6 +5,7 @@ const Koa = require('koa')
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
 const mongoose = require('mongoose')
+const logger = require('koa-logger')
 const createStaticServeMiddleware = require('koa-static')
 const createSessionMiddleware = require('koa-session')
 
@@ -14,6 +15,7 @@ const authModule = require(path.resolve(__dirname, './auth'))
 const dashboardModule = require(path.resolve(__dirname, './dashboard'))
 const quoteModule = require(path.resolve(__dirname, './quotes'))
 const examsModule = require(path.resolve(__dirname, './exams'))
+const uploadModule = require(path.resolve(__dirname, './upload'))
 
 const { cookie: { signKeys } } = config
 const app = new Koa()
@@ -38,10 +40,12 @@ authModule.init(router, passport)
 dashboardModule.init(router)
 quoteModule.init(router)
 examsModule.init(router)
+uploadModule.init(router)
 
 app.proxy = true
 app.keys = signKeys.split(',')
 app
+  .use(logger())
   .use(flashMiddleware)
   .use(staticServeMiddleware)
   .use(sessionMiddleware)

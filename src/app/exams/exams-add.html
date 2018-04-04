@@ -1,54 +1,133 @@
 {% extends "_layout/layout.html" %}
 {% block content %}
 <div class="row" style="margin-top: 10px;">
-  <form action="/add-exams" method="POST" class="col s12" role="form">
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="nameInput" type="text" name="name" class="validate">
-        <label for="nameInput">Name</label>
+  <div class="col s12 m8 offset-m2 z-depth-2">
+    <h3 class="center-align light-blue-text">Tạo mới đề thi</h3>
+    <form action="/upload" method="POST">
+      <div class="file-field input-field">
+        <div class="btn light-blue">
+          <span>Tải lên tệp</span>
+          <input type="file" name="fileUpload">
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Tải lên đề thi">
+        </div>
       </div>
-      
-      <div class="input-field col s12">
-        <input id="schoolInput" type="text" name="school" class="validate">
-        <label for="schoolInput">School</label>
+    </form>
+    <form action="/add-exams" method="POST" class="col s12" role="form">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="nameInput" type="text" name="name" class="validate">
+          <label for="nameInput">Tên đề thi</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <input id="schoolInput" type="text" name="school" class="validate">
+          <label for="schoolInput">Trường phát hành đề thi</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <select name="subject">
+            <option value="" disabled selected>Chọn môn học</option>
+            <option value="math">Toán</option>
+            <option value="physic">Lý</option>
+            <option value="chemistry">Hóa</option>
+            <option value="biology">Sinh</option>
+            <option value="english">Tiếng Anh</option>
+          </select>
+          <label>Môn học</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <input id="numberOfQuestion" type="number" name="numberOfQuestions" class="validate">
+          <label for="numberOfQuestion">Số lượng câu hỏi trong đề</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <input id="answerInput" type="text" name="answers" class="validate" data-length="50">
+          <label for="answerInput">Danh sách câu trả lời</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <input type="text" name="examspath" class="validate" hidden>
+        </div>
+    
+        <div class="input-field col s12">
+          <select name="level">
+            <option value="" disabled selected>Chọn mức độ của đề</option>
+            <option value="easy">Dễ </option>
+            <option value="medium">Trung bình</option>
+            <option value="hard">Khó</option>
+          </select>
+          <label>Mức độ đề thi</label>
+        </div>
+    
+        <div class="input-field col s12">
+          <input id="yearInput" type="text" name="year" class="validate">
+          <label for="yearInput">Năm học</label>
+        </div>
+    
+        <div class="col s12 center-align">
+          <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Lưu đề thi
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
       </div>
-      
-      <div class="input-field col s12">
-        <input id="subjectInput" type="text" name="subject" class="validate">
-        <label for="subjectInput">Subject</label>
-      </div>
-      
-      <div class="input-field col s12">
-        <input id="numberOfQuestion" type="number" name="numberOfQuestions" class="validate">
-        <label for="numberOfQuestion">Number of question</label>
-      </div>
-      
-      <!-- <div class="input-field col s12">
-        <input id="quotes" type="text" name="answers" class="validate">
-        <label for="quotes">Quotes</label>
-      </div> -->
-      
-      <!-- <div class="input-field col s12">
-        <input id="quotes" type="text" name="quote" class="validate">
-        <label for="quotes">Quotes</label>
-      </div> -->
-      
-      <div class="input-field col s12">
-        <input id="levelInput" type="text" name="level" class="validate">
-        <label for="levelInput">Level</label>
-      </div>
-      
-      <div class="input-field col s12">
-        <input id="yearInput" type="text" name="year" class="validate">
-        <label for="yearInput">Year</label>
-      </div>
-
-      <div class="col s12 center-align">
-        <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Save Exams
-          <i class="material-icons right">send</i>
-        </button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
+{% endblock %}
+
+{% block jsCustom %}
+  <script>
+    (function (cbFn) {
+      cbFn(window.jQuery, window)
+    })(function ($, window) {
+      $(addExamsPageReaddy)
+
+      function addExamsPageReaddy() {
+        var $btnFileUpload = $('input[name="fileUpload"]')
+        var $inputFilePath = $('input[name="examspath"]')
+        var $answerInput = $('#answerInput')
+        var $numberOfQuestion = $('#numberOfQuestion')
+        var $selectInput = $('select')
+        
+        $numberOfQuestion.on('keyup', setNumberAnswer)
+        $btnFileUpload.on('change', triggerUploadFile)
+        $answerInput.characterCounter()
+        $selectInput.material_select();
+
+        function setNumberAnswer(event) {
+          var numberAnswer = $(event.currentTarget).val()
+          $answerInput.attr('data-length', numberAnswer)
+        }
+        
+        function triggerUploadFile(event) {
+          event.preventDefault()
+          var form = new FormData()
+          var file = this.files[0]
+          var uploadingImag
+          form.append('fileUpload', file)
+
+          uploadingImag = $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: form,
+            contentType: false,
+            processData: false
+          })
+
+          uploadingImag
+            .done((respone) => {
+              console.log(respone.data.link);
+              
+              if (respone.success) {
+                $inputFilePath.val(respone.data.link)
+              }
+            })
+            .fail(console.log)
+        }
+      }
+    })
+  </script>
 {% endblock %}

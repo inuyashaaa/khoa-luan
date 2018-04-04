@@ -35,9 +35,7 @@ usersSchema.pre('save', function (next) {
   }
 
   bcrypt.genSalt(10, (err, salt) => {
-    if (err) {
-      return
-    }
+    if (err) return
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) {
         return

@@ -66,4 +66,5 @@ typings/
 .next
 
 # uploads folder
-src/public/cms/news/uploads/
+src/public/uploads/
+src/public/exams/

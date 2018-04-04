@@ -7,4 +7,4 @@ const Schema = mongoose.Schema
 const quotesSchema = new Schema({
   quote: { type: String, required: true }
 })
-module.exports = mongoose.model('quotes', quotesSchema)
+module.exports = mongoose.model('Quotes', quotesSchema)
