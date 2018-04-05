@@ -1,0 +1,43 @@
+{% extends "_layout/layout.html" %}
+{% block cssCustom %}
+  <link rel="stylesheet" type="text/css" href="/css/news.css">
+{% endblock %}
+{% block content %}
+{% include "_layout/nav-bar.html" %}
+<div class="container">
+  <div class="row news-list z-depth-2">
+    {% for new in news %}
+      <div class="col s12">
+        <div class="card horizontal card-news">
+          <div class="card-image image-news">
+            <a href="#">
+              <img src="{{ new.imageLink }}">
+            </a>
+          </div>
+          <div class="card-stacked">
+            <div class="card-content" style="padding: 0px;">
+              <h2>
+                <a href="#" class="card-title inverse">{{ new.title }}</a>
+              </h2>
+              <p>{{ new.description | truncate(300) }}</p>
+            </div>
+            <div class="card-action right-align news-card-action">
+              <a href="#" class="btn">Xem thêm</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block jsCustom %}
+<script>
+  (function (pageNewsReaddy) {
+    pageNewsReaddy(window.jQuery, window)
+  })(function pageNewsReaddy($, window) {
+    $(".button-collapse").sideNav()
+  })
+</script>
+{% endblock %}

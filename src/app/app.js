@@ -16,6 +16,7 @@ const dashboardModule = require(path.resolve(__dirname, './dashboard'))
 const quoteModule = require(path.resolve(__dirname, './quotes'))
 const examsModule = require(path.resolve(__dirname, './exams'))
 const uploadModule = require(path.resolve(__dirname, './upload'))
+const newsModule = require(path.resolve(__dirname, './news'))
 
 const { cookie: { signKeys } } = config
 const app = new Koa()
@@ -41,6 +42,7 @@ dashboardModule.init(router)
 quoteModule.init(router)
 examsModule.init(router)
 uploadModule.init(router)
+newsModule.init(router)
 
 app.proxy = true
 app.keys = signKeys.split(',')

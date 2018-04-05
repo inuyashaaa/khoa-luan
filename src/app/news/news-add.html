@@ -1,0 +1,90 @@
+{% extends "_layout/layout.html" %}
+{% block content %}
+<div class="row" style="margin-top: 10px;">
+  <div class="col s12 m8 offset-m2 z-depth-2">
+    <h3 class="center-align light-blue-text">Tạo mới tin tức</h3>
+    <form action="/upload" method="POST">
+      <div class="file-field input-field">
+        <div class="btn light-blue">
+          <span>Ảnh tiêu đề bài viết</span>
+          <input type="file" name="fileUpload">
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Tải lên ảnh tiêu đề">
+        </div>
+      </div>
+    </form>
+    <form action="/add-news" method="POST" class="col s12" role="form">
+      <div class="row">
+        <input type="text" name="imageLink" hidden>
+        
+        <div class="input-field col s12">
+          <input id="nameInput" type="text" name="title" class="validate">
+          <label for="nameInput">Tiêu đề bài viết</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="schoolInput" type="text" name="description" class="validate">
+          <label for="schoolInput">Mô tả nội dung</label>
+        </div>
+
+        <div class="input-field col s12">
+          <textarea id="editor2" class="editor2" placeholder="Nội dung bài viết..." name="content" required></textarea>
+        </div>
+
+        <div class="col s12 center-align">
+          <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Lưu bài viết
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block jsLib %}
+<script src="/js/ckeditor/ckeditor.js"></script>
+{% endblock %}
+{% block jsCustom %}
+<script src="/js/editor.js"></script>
+<script>
+  (function (cbFn) {
+    cbFn(window.jQuery, window)
+  })(function ($, window) {
+    $(addNewsPageReaddy)
+
+    function addNewsPageReaddy() {
+      var $btnFileUpload = $('input[name="fileUpload"]')
+      var $inputFilePath = $('input[name="imageLink"]')
+
+      $btnFileUpload.on('change', triggerUploadFile)
+
+      function triggerUploadFile(event) {
+        event.preventDefault()
+        var form = new FormData()
+        var file = this.files[0]
+        var uploadingImag
+        form.append('fileUpload', file)
+
+        uploadingImag = $.ajax({
+          url: '/upload',
+          type: 'POST',
+          data: form,
+          contentType: false,
+          processData: false
+        })
+
+        uploadingImag
+          .done((respone) => {
+            console.log(respone.data.link);
+
+            if (respone.success) {
+              $inputFilePath.val(respone.data.link)
+            }
+          })
+          .fail(console.log)
+      }
+    }
+  })
+</script>
+{% endblock %}

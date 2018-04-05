@@ -54,21 +54,16 @@ function initUpload (router) {
 
     return ctx.body
   })
-  // router.post('/uploadImg', uploader.single('upload'), (ctx, next) => {
-  //   let data = ctx.req.file
-  //   data.link = process.env.UPLOAD_HOST + cutImagesPathString(data.path)
-  //   const CKEditorFuncNum = ctx.query.CKEditorFuncNum
+  router.post('/uploadImg', uploader.single('upload'), (ctx, next) => {
+    let data = ctx.req.file
+    data.link = process.env.UPLOAD_HOST + data.path.replace(publicPath, '')
+    const CKEditorFuncNum = ctx.query.CKEditorFuncNum
+    console.log(ctx.query)
 
-  //   ctx.body = `<script type="text/javascript">
-  //     window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}', '${data.link}', '')
-  //   </script>`
+    ctx.body = `<script type="text/javascript">
+      window.parent.CKEDITOR.tools.callFunction('${CKEditorFuncNum}', '${data.link}', '')
+    </script>`
 
-  //   return ctx.body
-  // })
+    return ctx.body
+  })
 }
-
-// const cutImagesPathString = function (imagePath) {
-//   const indexOfUploadsString = imagePath.indexOf('cms')
-
-//   return imagePath.substring(indexOfUploadsString - 1)
-// }

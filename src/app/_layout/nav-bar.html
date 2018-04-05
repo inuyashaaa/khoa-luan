@@ -1,0 +1,54 @@
+<nav class="light-blue lighten-1">
+  <div class="nav-wrapper">
+    <a href="#" data-activates="mobile-demo" class="button-collapse">
+      <i class="material-icons">menu</i>
+    </a>
+    <ul class="left hide-on-med-and-down">
+      <li class="active">
+        <a href="/home/math">
+          <i class="fa fa-book icon_of_menu_holizontal" aria-hidden="true"></i> Môn Học</a>
+      </li>
+      <li>
+        <a href="/progess/?subject=math">
+          <i class="fa fa-bar-chart icon_of_menu_holizontal" aria-hidden="true"></i> Tiến Trình</a>
+      </li>
+      <li>
+        <a href="{{ router.url('get:all:news') }}">
+          <i class="fa fa-newspaper-o icon_of_menu_holizontal" aria-hidden="true"></i> Tin Tức</a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Diễn đàn</a>
+      </li>
+    </ul>
+    <div class="right" style="max-height:100%">
+      <span id='block_avatar'>
+        <img id='avatar' src="{{ user.avatar }}" alt="avatar"> {{ user.username }}
+        <i class="fa fa-caret-down dropdown-button" aria-hidden="true" data-beloworigin="true" data-activates='dropdown' style="height:15px"></i>
+        <ul class='dropdown-content' id='dropdown'>
+          <li>
+            <a href="/logout">Logout</a>
+          </li>
+        </ul>
+      </span>
+    </div>
+    <ul class="side-nav" id="mobile-demo">
+      <li class="active">
+        <a href="/home/math">
+          <i class="fa fa-book icon_of_menu_holizontal" aria-hidden="true"></i> Môn Học</a>
+      </li>
+      <li>
+        <a href="/progess/?subject=math">
+          <i class="fa fa-bar-chart icon_of_menu_holizontal" aria-hidden="true"></i> Tiến Trình</a>
+      </li>
+      <li>
+        <a href="{{ router.url('get:all:news') }}">
+          <i class="fa fa-newspaper-o icon_of_menu_holizontal" aria-hidden="true"></i> Tin Tức</a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Diễn đàn</a>
+      </li>
+    </ul>
+  </div>
+</nav>

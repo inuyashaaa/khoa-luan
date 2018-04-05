@@ -1,23 +1,62 @@
-#menu-vertical li{
-  text-align: left;
-  margin-left: 10%;
-  margin-right: 10%;
+.card-news {
+  padding: 30px;
+  box-shadow: none;
+}
+.news-list {
+  margin-top: 30px;  
 }
 
-.news{
-  padding-left: 10px;
-  margin-top: 2px;
-  border-radius: 5px;
-  border: 3px solid #4DB6AC;
+.image-news {
+  margin-right: 40px;
+  max-width: 25% !important;
 }
 
-
-.title{
-  font-weight: bold;
-  font-size: 20px;
+.image-news img {
+  -webkit-transition: all .3s ease-out;
+  -moz-transition: all .3s ease-out;
+  -ms-transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  transition: all .3s ease-out;
 }
 
-.imageNews {
-  max-width: 100%;
-  border-radius: 5px;
+.image-news a {
+  display: block;
+  overflow: hidden;
+}
+.image-news img:hover {
+  transform: scale(1.2);
+}
+
+.news-card-action {
+  border-bottom: 1px solid rgba(160,160,160,0.2);
+  border-top: none !important;
+}
+
+a.inverse {
+  color: #151515;
+}
+
+a.inverse:hover, a.inverse:active, a.inverse:focus {
+  color: #42a5f5;
+}
+
+.card-content h2 {
+  margin: 0px 0px 30px 0px;
+}
+.card .card-title {
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .card.horizontal {
+    display: block;  
+  }
+  .card.horizontal .card-image {
+    margin: 0px;
+    max-width: 100% !important;
+  }
+  .card-news {
+    padding: 10px;
+    margin: 10px 0px;
+  }
 }
