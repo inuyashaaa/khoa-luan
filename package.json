@@ -5,7 +5,7 @@
   "author": "illuminati",
   "license": "MIT",
   "scripts": {
-    "start": "GOOGLE_OAUTH2_CLIENT_ID=43389588445-np7bauh2t7225f5idvqq2d7t9615va6e.apps.googleusercontent.com GOOGLE_OAUTH2_CLIENT_SECRET=p0hWCplqPc4-CW46YDpWVdeN GOOGLE_OAUTH2_CALLBACKURL=https://thidaihoc.online/auth/google/callback COOKIE_SIGN_KEY=a_secret_1,a_secret_2,a_secret_n pm2 start src/index.js -i 0 --name 'nodeapp'",
+    "start": "PORT=8080 GOOGLE_OAUTH2_CLIENT_ID=43389588445-np7bauh2t7225f5idvqq2d7t9615va6e.apps.googleusercontent.com GOOGLE_OAUTH2_CLIENT_SECRET=p0hWCplqPc4-CW46YDpWVdeN GOOGLE_OAUTH2_CALLBACKURL=https://thidaihoc.online/auth/google/callback COOKIE_SIGN_KEY=a_secret_1,a_secret_2,a_secret_n pm2 start src/index.js -i 0 --name 'nodeapp'",
     "stop": "pm2 stop nodeapp",
     "restart": "pm2 restart nodeapp",
     "delete": "pm2 delete nodeapp",
