@@ -26,7 +26,7 @@
     function pageLoadding () {
       setTimeout(function () {
         $('.page-loader').fadeOut()
-      }, 300)
+      }, 200)
     }
   }
 })

@@ -45,7 +45,7 @@ function initUpload (router) {
     let data = ctx.req.file
     console.log(data)
 
-    data.link = process.env.UPLOAD_HOST + data.path.replace(publicPath, '')
+    data.link = data.path.replace(publicPath, '')
     ctx.body = {
       success: true,
       message: 'Upload file success',
@@ -56,7 +56,7 @@ function initUpload (router) {
   })
   router.post('/uploadImg', uploader.single('upload'), (ctx, next) => {
     let data = ctx.req.file
-    data.link = process.env.UPLOAD_HOST + data.path.replace(publicPath, '')
+    data.link = data.path.replace(publicPath, '')
     const CKEditorFuncNum = ctx.query.CKEditorFuncNum
     console.log(ctx.query)
 
