@@ -3,6 +3,7 @@
 const Exams = require('./model')
 const History = require('../history/model')
 const User = require('../user/model')
+const isAdminMiddleWare = require('../auth/ensure-admin.middleware')
 
 module.exports = {
   initExams,
@@ -10,7 +11,7 @@ module.exports = {
 }
 
 function initExams (router) {
-  router.get('get:add:exams', '/add-exams.html', getFormAddExams)
+  router.get('get:add:exams', '/add-exams.html', isAdminMiddleWare, getFormAddExams)
   router.get('get:do:exams', '/exam', getDoExams)
   router.post('post:add:exams', '/add-exams', addExams)
   router.post('post:exams:result', '/result', getResultExams)

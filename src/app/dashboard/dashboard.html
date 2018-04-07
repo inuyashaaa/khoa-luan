@@ -1,210 +1,153 @@
 {% extends "_layout/layout.html" %}
-{% block cssCustom %}
-<link rel="stylesheet" type="text/css" href="/css/home.css">
-{% endblock %}
 
-{% block content %}  
+{% block content %}
 {% include "_layout/nav-bar.html" %}
-<div class="row">
-  <div class="col s2 l2">
-    <div id="menu-vertical" class="teal lighten-2">
-      <ul>
-        <li>
-          <a href="/home/math">Toán</a>
-        </li>
-        <li>
-          <a href="/home/physic">Lý</a>
-        </li>
-        <li>
-          <a href="/home/chemistry">Hoá</a>
-        </li>
-        <li>
-          <a href="/home/biology">Sinh</a>
-        </li>
-        <li>
-          <a href="/home/english">Anh</a>
-        </li>
-      </ul>
+<div class="container">
+  <div class="row">
+    <h3 class="center-align">ĐỀ THI CÁC MÔN</h3>
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/math.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Toán
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            Chào mừng bạn đến với chủ đề TOÁN HỌC
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="/home/math">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Toán</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha. :)</p>
+        </div>
+      </div>
     </div>
-    
-  </div>
-  <div class="col s8 l8">
-    <div class="row">
-      <div class="col s12 l12">
-        <div class="block_slidedown quote">
-          <blockquote>
-            Những câu nói hay:
-            <br>
-            {{ quote }}
-            <br>
-          </blockquote>
+
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/ly.jpg">
         </div>
-        <br>
-
-        <div id="search" class="block_slidedown">
-          <div class="">
-            <i class="fa fa-search" aria-hidden="true">Tìm kiếm bài thi</i>
-            <div class="row">
-              <div class="col s8 l10">
-                <input type="text" id="key" onkeydown="onEnterKey()">
-              </div>
-              <div class="col s4 l2">
-                <div class="btn" onclick="search()">Tìm</div>
-              </div>
-            </div>
-            <div id="result"></div>
-          </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Vật Lý
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+             Chào mừng bạn đến với chủ đề VẬT LÝ
+          </p>
         </div>
-        <br>
+        <div class="card-action">
+          <a href="/home/physic">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Vật Lý</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha.</p>
+        </div>
+      </div>
+    </div>
 
-        <div id="exams" class="block_slidedown">
-          <h6> Danh sách đề thi:</h6>
-          <h6><i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i> Dễ</h6>
-          <ul class="collapsible" data-collapsible="accordion">
-            {% for exam in exams %}
-              {% if exam.level == 'easy' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <i class="fa fa-eye right fa-1x " aria-hidden="true"></i>
-                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
-                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
-                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
-                    </div>
-                  </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/hoa.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Hóa
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            Chào mừng bạn đến với chủ đề HÓA HỌC
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="/home/chemistry">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Hóa</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha.</p>
+        </div>
+      </div>
+    </div>
 
-          <h6>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            Trung bình</h6>
-          <ul class="collapsible" data-collapsible="accordion">
-            {% for exam in exams %}
-              {% if exam.level == 'medium' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <i class="fa fa-eye right fa-1x " aria-hidden="true"></i>
-                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
-                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
-                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
-                    </div>
-                  </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-            
-          <h6>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            Khó</h6>
-          <ul class="collapsible" data-collapsible="accordion">
-            {% for exam in exams %}
-              {% if exam.level == 'hard' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <i class="fa fa-eye right fa-1x " aria-hidden="true"></i>
-                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
-                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
-                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
-                    </div>
-                  </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/sinh.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Sinh Học
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            Chào mừng bạn đến với chủ đề SINH HỌC
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="/home/biology">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Sinh Học</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/anh.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Tiếng Anh
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            Chào mừng bạn đến với chủ đề TIẾNG ANH
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="/home/english">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Tiếng Anh</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" src="images/dia.jpg">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Môn Địa Lý
+            <i class="material-icons right">more_vert</i>
+          </span>
+          <p>
+            Chào mừng bạn đến với chủ đề ĐỊA LÝ
+          </p>
+        </div>
+        <div class="card-action">
+          <a href="#">Thử sức thôi nào...</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>Môn Địa Lý</span>
+          <p>Đây là bộ môn cực kì quan trọng trong các kì thi. Bạn hãy cố gắng chuẩn bị thật kỹ kiến thức để làm bài thi tốt nha.</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="col s2 l2">
-    <h6 class='center'>
-      <i class="fa fa-star-half-o yellow-text fa-lg" aria-hidden="true"></i> Top Ranking</h3>
-      <div class="divider"></div>
-      <table class="striped">
-        <tbody>
-          {% for topUser in topTenUser %}
-            <tr>
-              <td>{{ loop.index }}. {{ topUser.username }}</td>
-              <td>{{ topUser.point }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-  </div>
 </div>
-{% endblock %}
-
-
-{% block jsCustom %}
-<script>
-  (function (pageNewsReaddy) {
-    pageNewsReaddy(window.jQuery, window)
-  })(function pageNewsReaddy($, window) {
-    $(".button-collapse").sideNav()
-  })
-</script>
-  <!-- <script type="text/javascript">
-    var search = function () {
-      var key = $('#key').val();
-      $('#result a').remove();
-      var element = $('.name_of_exam');
-      var value = '';
-      // search
-      for (var i = 0; i <= element.length; i++) {
-        value = $(element[i]).text();
-        if (value.includes(key)) {
-          $('#result').append('<a class="waves-effect waves-light btn" href="/exam/?nameOfExam=' + value + '">' + value + '</a>')
-        }
-      }
-    }
-  </script>
-  
-  <script type="text/javascript">
-    var onEnterKey = function () {
-      if (event.keyCode == 13) {
-        search();
-      }
-    }
-  </script>
-  
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('.checkFirst').click(function () {
-        var thisVariable = $(this);
-        $.ajax({
-          url: "../checkFirst",
-          type: "post",
-          dataType: "json",
-          data: {
-            name: $(this).find('.name_of_exam').text()
-          },
-          success: function (result) {
-            if (!result.check) {
-              thisVariable.find('.fa-eye').addClass('teal-text text-lighten-2');
-            }
-          }
-        })
-      })
-    })
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('.collapsible').collapsible();
-    });
-  </script> -->
 {% endblock %}

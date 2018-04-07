@@ -2,33 +2,34 @@
   <nav class="white">
     <div class="nav-wrapper nav-wrapper-login">
       <a href="/home/math">
-        <img src="/images/home.png" id="home">
+        <b id="logo" style="font-size: 20px;">
+          <span style="color: rgb(66, 133, 244);">T</span><span style="color: rgb(234, 67, 53);">h</span><span style="color: rgb(243, 156, 18);">i</span><span style="color: rgb(52, 168, 83);">d</span><span style="color: rgb(234, 67, 53);">a</span><span style="color: rgb(66, 133, 244);">i</span><span style="color: rgb(243, 156, 18);">h</span><span style="color: rgb(52, 168, 83);">o</span><span style="color: rgb(66, 133, 245);">c</span><span style="color: rgb(234, 67, 53);">.</span><span style="color: rgb(52, 168, 83);">o</span><span style="color: rgb(66, 133, 244);">n</span><span style="color: rgb(234, 67, 53);">l</span><span style="color: rgb(243, 156, 18);">i</span><span style="color: rgb(52, 168, 83);">n</span><span style="color: rgb(234, 67, 53);">e</span>
+        </b>
       </a>
-      <img src="/images/main_logo.png" id="logo">
       {% if not user %}
         <ul class="right hide-on-med-and-down ">
           <li class="about-us-header">
             <a href="#" class="black-text menu">
-              <i class="fa fa-globe fa" aria-hidden="true"></i> About us</a>
+              <i class="fa fa-globe fa" aria-hidden="true"></i> Về chúng tôi</a>
           </li>
           <li>
             <a href="#modal1" class="black-text menu">
-              <i class="fa fa-sign-in fa" aria-hidden="true"></i> Login</a>
+              <i class="fa fa-sign-in fa" aria-hidden="true"></i> Đăng nhập</a>
           </li>
           <li>
             <a href="#modal2" class="black-text menu">
-              <i class="fa fa-heartbeat" aria-hidden="true"></i> Signup</a>
+              <i class="fa fa-heartbeat" aria-hidden="true"></i> Đăng ký thành viên</a>
           </li>
         </ul>
         <ul id="nav-mobile" class="side-nav">
           <li>
-            <a href="#" class="black-text" onclick=" scroll_to_aboutus() ">About us</a>
+            <a href="#" class="black-text" onclick=" scroll_to_aboutus() ">Về chúng tôi</a>
           </li>
           <li>
-            <a href="#" class="black-text ">Login</a>
+            <a href="#" class="black-text ">Đăng nhập</a>
           </li>
           <li>
-            <a href="# " class="black-text ">Signup</a>
+            <a href="# " class="black-text ">Đăng ký</a>
           </li>
         </ul>
       {% endif %}
@@ -49,20 +50,20 @@
           <div class="row">
             <div class="input-field col s12">
               <input type="text" name="username" class="validate">
-              <label for="email">Username</label>
+              <label for="email">Tên đăng nhập</label>
             </div>
           </div>
 
           <div class="row">
             <div class="input-field col s12">
               <input type="password" name="password" class="validate">
-              <label for="password">Password</label>
+              <label for="password">Mật khẩu</label>
             </div>
           </div>
 
           <div class="row">
             <div class="col s12 center">
-              <button type="submit" class="waves-effect waves-light btn green">Login</button>
+              <button type="submit" class="waves-effect waves-light btn green">Đăng nhập</button>
             </div>
           </div>
         </form>
@@ -70,7 +71,7 @@
         <form action="/auth/google" method="GET">
           <div class="row">
             <div class="col s12 center">
-              <button id="login-fb-button" type="submit" class="waves-effect waves-light btn green">Login with Google</button>
+              <button id="login-fb-button" type="submit" class="waves-effect waves-light btn green">Đăng nhập bằng tài khoản Google</button>
             </div>
           </div>
         </form>
@@ -92,7 +93,7 @@
           <div class="row">
             <div class="input-field col s12">
               <input type="text" name="username" class="validate">
-              <label for="email">Username</label>
+              <label >Tên đăng nhập</label>
             </div>
           </div>
 
@@ -106,20 +107,20 @@
           <div class="row">
             <div class="input-field col s12">
               <input type="password" name="password" class="validate">
-              <label for="password">Password</label>
+              <label for="password">Mật khẩu</label>
             </div>
           </div>
 
           <div class="row">
             <div class="input-field col s12">
               <input id="re-password" type="password" name="re_password" class="validate">
-              <label for="re-password">Password Confirm</label>
+              <label for="re-password">Nhập lại mật khẩu</label>
             </div>
           </div>
 
           <div class="row">
             <div class="col s12 center">
-              <button id="signup-button" type="submit" class="waves-effect waves-light btn green">Signup</button>
+              <button id="signup-button" type="submit" class="waves-effect waves-light btn green">Đăng ký</button>
             </div>
           </div>
         </form>

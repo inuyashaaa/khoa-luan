@@ -1,0 +1,127 @@
+{% extends "_layout/layout.html" %} {% block content %}
+<div class="row" style="margin-top: 10px;">
+  <div class="col s12 m8 offset-m2 z-depth-2">
+    <h3 class="center-align light-blue-text">Chỉnh sửa tin tức</h3>
+    <form action="/upload" method="POST">
+      <div class="file-field input-field">
+        <div class="btn light-blue">
+          <span>Ảnh tiêu đề bài viết</span>
+          <input type="file" name="fileUpload">
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text" placeholder="Tải lên ảnh tiêu đề">
+        </div>
+      </div>
+    </form>
+    <form action="{{ router.url('post:edit:news') }}" method="POST" class="col s12" role="form">
+      <div class="row">
+        <input type="text" name="idNews" value="{{ news._id }}" hidden>
+        <input type="text" name="imageLink" hidden value="{{ news.imageLink }}">
+
+        <div class="input-field col s12">
+          <input id="titleInput" type="text" name="title" class="validate" value="{{ news.title }}">
+          <label for="titleInput">Tiêu đề bài viết</label>
+        </div>
+
+        <input type="text" name="slug" hidden value="{{ news.slug }}">
+
+        <div class="input-field col s12">
+          <input id="descriptionInput" type="text" name="description" class="validate" value="{{ news.description }}">
+          <label for="descriptionInput">Mô tả nội dung</label>
+        </div>
+
+        <div class="input-field col s12">
+          <textarea id="editor2" class="editor2" placeholder="Nội dung bài viết..." name="content" required>{{ news.content }}</textarea>
+        </div>
+
+        <div class="col s12 center-align" style="margin-top: 15px;">
+          <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Sửa bài viết
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %} {% block jsLib %}
+<script src="/js/ckeditor/ckeditor.js"></script> {% endblock %} {% block jsCustom %}
+<script src="/js/editor.js"></script>
+<script>
+  (function (cbFn) {
+    cbFn(window.jQuery, window)
+  })(function ($, window) {
+    $(addNewsPageReaddy)
+
+    function addNewsPageReaddy() {
+      var $btnFileUpload = $('input[name="fileUpload"]')
+      var $inputFilePath = $('input[name="imageLink"]')
+      var $inputTitle = $('input[name="title"]')
+      var $inputSlug = $('input[name="slug"]')
+
+      $btnFileUpload.on('change', triggerUploadFile)
+      $inputTitle.on('keyup', autoFillSlug)
+
+      function triggerUploadFile(event) {
+        event.preventDefault()
+        var form = new FormData()
+        var file = this.files[0]
+        var uploadingImag
+        form.append('fileUpload', file)
+
+        uploadingImag = $.ajax({
+          url: '/upload',
+          type: 'POST',
+          data: form,
+          contentType: false,
+          processData: false
+        })
+
+        uploadingImag
+          .done((respone) => {
+            console.log(respone.data.link);
+
+            if (respone.success) {
+              $inputFilePath.val(respone.data.link)
+            }
+          })
+          .fail(console.log)
+      } // triggerUploadFile
+
+      function autoFillSlug() {
+        var inputTitleValue = $inputTitle.val()
+        $inputSlug.val(generateSlug(inputTitleValue))
+      }// autoFillSlug
+
+      function generateSlug(slugString) {
+        if (slugString.trim() === '') {
+          return ''
+        }
+        var date = new Date()
+        var slug = (change_alias(slugString) + '-' + date.getTime())
+          .trim()
+          .toString()
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/\-\-+/g, '-')
+          .replace(/.html/g, '')
+        return slug + '.html'
+      }
+
+      function change_alias(alias) {
+        var str = alias;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ + /g, " ");
+        str = str.trim();
+        return str;
+      }
+    }
+  })
+</script> {% endblock %}

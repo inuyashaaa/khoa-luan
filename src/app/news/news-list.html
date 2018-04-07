@@ -7,22 +7,26 @@
 <div class="container">
   <div class="row news-list z-depth-2">
     {% for new in news %}
-      <div class="col s12">
+      <div class="col s12" id="news-{{ new._id }}">
         <div class="card horizontal card-news">
           <div class="card-image image-news">
-            <a href="#">
+            <a href="/news/{{ new.slug }}">
               <img src="{{ new.imageLink }}">
             </a>
           </div>
           <div class="card-stacked">
             <div class="card-content" style="padding: 0px;">
               <h2>
-                <a href="#" class="card-title inverse">{{ new.title }}</a>
+                <a href="/news/{{ new.slug }}" class="card-title inverse">{{ new.title }}</a>
               </h2>
               <p>{{ new.description | truncate(300) }}</p>
             </div>
             <div class="card-action right-align news-card-action">
-              <a href="#" class="btn">Xem thêm</a>
+              <a href="/news/{{ new.slug }}" class="btn">Xem thêm...</a>
+              {% if user.isAdmin %}
+                <a href="/news/edit/{{ new.slug }}" class="btn blue">Sửa tin tức</a>
+                <a href="/news/delete/{{ new._id }}" class="btn red btn-delete-new" data-idnews="{{ new._id }}">Xóa tin tức</a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -32,12 +36,59 @@
 </div>
 {% endblock %}
 
+{% block jsLib %}
+  <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+{% endblock %}
 {% block jsCustom %}
 <script>
   (function (pageNewsReaddy) {
     pageNewsReaddy(window.jQuery, window)
   })(function pageNewsReaddy($, window) {
     $(".button-collapse").sideNav()
+    var $btnDeleteNew = $('.btn-delete-new')
+    
+    $btnDeleteNew.on('click', deleteNews)
+
+    function deleteNews(event) {
+      var $btnDel = $(event.currentTarget)
+      var idNews = $btnDel.data('idnews')
+      var $rowNews = $('#news-' + idNews)
+      console.log('#news-' + idNews);
+      
+      console.log($rowNews);
+      
+      event.preventDefault()
+      Swal({
+        title: 'Bạn muốn xóa bài viết này ?',
+        text: 'Bài viết sẽ không còn được hiển thị trên web!!!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Vâng, tôi muốn xóa!',
+        cancelButtonText: 'Không, giữ lại nó!'
+      }).then((result) => {
+        if (result.value) {
+          $.ajax({
+            url: $btnDel.attr('href'),
+            type: 'GET',
+            data: ''
+          })
+            .done(function(data) {
+              $rowNews.hide('slow')
+              Swal(
+                'Deleted!',
+                'Bài viết đã xóa thành công',
+                'success'
+              )
+            })
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal(
+            'Cancelled',
+            'Bài viết không bị xóa :)',
+            'error'
+          )
+        }
+      })
+    }
   })
 </script>
 {% endblock %}

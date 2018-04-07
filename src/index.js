@@ -12,17 +12,22 @@ const server = app.listen(port, _ => {
 })
 
 const io = require('socket.io').listen(server, { 'log level': 1 })
-
+let allClients = []
 io.on('connection', async function (socket) {
   // console.log(`User ${socket.conn.id} is connected! IP: ${socket.request.connection.remoteAddress}`)
   try {
-    const chats = await Chat.find({}).sort({ _id: 1 })
-    console.log(chats)
+    const chats = await Chat.find({}).sort({ _id: 1 }).limit(50)
     io.emit('output', chats)
   } catch (error) {
     console.log(error)
   }
-
+  socket.on('userConnect', function (data) {
+    socket.username = data.username
+    allClients.push(socket)
+    let numberUser = allClients.length
+    io.emit('chat:log', {message: `${data.username} vừa vào phòng`})
+    io.emit('chat:log:num', {message: `Hiện có ${numberUser} đang trong phòng`})
+  })
   socket.on('chat:message', async function (data) {
     try {
       const chat = await Chat.create(data)
@@ -30,6 +35,14 @@ io.on('connection', async function (socket) {
     } catch (error) {
       console.log(error)
     }
+  })
+  socket.on('disconnect', function () {
+    let i = allClients.indexOf(socket)
+    allClients.splice(i, 1)
+
+    let numberUser = allClients.length
+    io.emit('chat:log', { message: `${socket.username} vừa rời phòng` })
+    io.emit('chat:log:num', { message: `Hiện có ${numberUser} đang trong phòng` })
   })
 })
 

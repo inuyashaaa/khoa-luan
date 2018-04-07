@@ -1,0 +1,139 @@
+{% extends "_layout/layout.html" %}
+{% block cssCustom %}
+<link rel="stylesheet" type="text/css" href="/css/home.css">
+{% endblock %}
+
+{% block content %}  
+{% include "_layout/nav-bar.html" %}
+<div class="row">
+  <div class="col s2 l2">
+  </div>
+  <div class="col s8 l8">
+    <div class="row">
+      <div class="col s12 l12">
+        <div class="block_slidedown quote">
+          <blockquote>
+            <strong>Những câu nói hay:</strong>
+            <br>
+            {{ quote }}
+            <br>
+          </blockquote>
+        </div>
+        <br>
+<!-- 
+        <div id="search" class="block_slidedown">
+          <div class="">
+            <i class="fa fa-search" aria-hidden="true">Tìm kiếm bài thi</i>
+            <div class="row">
+              <div class="col s8 l10">
+                <input type="text" id="key" onkeydown="onEnterKey()">
+              </div>
+              <div class="col s4 l2">
+                <div class="btn" onclick="search()">Tìm</div>
+              </div>
+            </div>
+            <div id="result"></div>
+          </div>
+        </div>
+        <br> -->
+
+        <div class="block_slidedown">
+          <h6> Danh sách đề thi:</h6>
+          <h6><i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i> Dễ</h6>
+          <ul class="collapsible popout" data-collapsible="accordion">
+            {% for exam in exams %}
+              {% if exam.level == 'easy' %}
+                <li class="checkFirst">
+                  <div class="collapsible-header name_of_exam">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
+                  <div class="collapsible-body">
+                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
+                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
+                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
+                    <div class="center">
+                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                    </div>
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          <h6>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            Trung bình</h6>
+          <ul class="collapsible popout" data-collapsible="accordion">
+            {% for exam in exams %}
+              {% if exam.level == 'medium' %}
+                <li class="checkFirst">
+                  <div class="collapsible-header name_of_exam">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
+                  <div class="collapsible-body">
+                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
+                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
+                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
+                    <div class="center">
+                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                    </div>
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+            
+          <h6>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+            Khó</h6>
+          <ul class="collapsible popout" data-collapsible="accordion">
+            {% for exam in exams %}
+              {% if exam.level == 'hard' %}
+                <li class="checkFirst">
+                  <div class="collapsible-header name_of_exam">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
+                  <div class="collapsible-body">
+                    <div>Facebook is an American for-profit corporation and an online social media and social networking service based in Menlo
+                      Park, California. The Facebook website was launched on February 4, 2004, by Mark Zuckerberg, along with fellow Harvard
+                      College students and roommates, Eduardo Saverin, Andrew McCollum, Dustin Moskovitz, and Chris Hughes.</div>
+                    <div class="center">
+                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                    </div>
+                  </div>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col s2 l2">
+    <h6 class='center'>
+      <i class="fa fa-star-half-o yellow-text fa-lg" aria-hidden="true"></i> Top Ranking</h3>
+      <div class="divider"></div>
+      <table class="striped">
+        <tbody>
+          {% for topUser in topTenUser %}
+            <tr>
+              <td>{{ loop.index }}. {{ topUser.username }}</td>
+              <td>{{ topUser.point }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block jsCustom %}
+<script>
+  (function (pageNewsReaddy) {
+    pageNewsReaddy(window.jQuery, window)
+  })(function pageNewsReaddy($, window) {
+    $(".button-collapse").sideNav()
+    $('.collapsible').collapsible()
+  })
+</script>
+{% endblock %}

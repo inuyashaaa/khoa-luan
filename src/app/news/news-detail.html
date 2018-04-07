@@ -1,0 +1,25 @@
+{% extends "_layout/layout.html" %} {% block cssCustom %}
+<link rel="stylesheet" type="text/css" href="/css/news.css"> 
+{% endblock %}
+{% block content %}
+{% include "_layout/nav-bar.html" %}
+<div class="container">
+  <div class="row news-list z-depth-2">
+    <div class="col s12">
+      <div class="card card-news-detail">
+        <div class="card-stacked">
+            <h2 class="item-title">{{ news.title }}</h2>
+            <p>{{ news.content | safe }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block jsCustom %}
+<script>
+  (function (pageNewsReaddy) {
+    pageNewsReaddy(window.jQuery, window)
+  })(function pageNewsReaddy($, window) {
+    $(".button-collapse").sideNav()
+  })
+</script> {% endblock %}

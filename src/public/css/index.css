@@ -56,3 +56,10 @@
   justify-content: center;
   display: flex;
 }
+
+body {
+  color: #757575;
+}
+p {
+  margin: 1.3em 0 2.5em;
+}

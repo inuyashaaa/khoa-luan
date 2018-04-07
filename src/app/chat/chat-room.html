@@ -1,21 +1,51 @@
 {% extends "_layout/layout.html" %}
-
+{% block cssCustom %}
+  <style>
+  #messages{
+    width: 100%;
+    height: 500px;
+    overflow-y: scroll;
+  }
+  .chat-room-content{
+    padding: 20px 50px;
+  }
+  .message{
+    font-size: 120%;
+  }
+  .chat-room-title{
+    font-size: 1.56rem;
+  }
+  .username {
+    font-weight: 700;
+    overflow: hidden;
+    padding-right: 15px;
+    text-align: right;
+  }
+  .log {
+    color: gray;
+    font-size: 90%;
+    margin: 5px;
+    text-align: center;
+  }
+  </style>
+{% endblock %}
 {% block content %}
+{% include "_layout/nav-bar.html" %}
   <div class="container">
     <div class="row">
       <div class="col s12">
-        <h2 class="center-align">Phòng chat - Nơi trao đổi của mọi người</h2>
-      </div>
+        <div class="card chat-room-content">
+          <h2 class="center-align chat-room-title">Phòng chat - Nơi trao đổi của mọi người</h2>
 
-      <div id="chat">
-          <input id="username" type="text" name="username" value="{{ user.username }}" hidden>
-        <div id="messages" style="height: 500px;">
-    
-        </div>
-        <br>
-        <div class="input-field col s12">
-          <textarea id="textarea" class="materialize-textarea"></textarea>
-          <label for="textarea">Noi dung chat</label>
+          <input id="username" type="text" name="username" value="{{ user.username }}" >
+          <ul id="messages" class="chat-room-message"></ul>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">mode_edit</i>
+              <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+              <label for="icon_prefix2">Nội dung chat</label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -34,18 +64,22 @@
 
       function chatRoomReady() {
         var socket = io()
-
+        
+        var userColor = getRandomRgb()
         $('#textarea').trigger('autoresize')
 
-        var username = $('input[name="username"]').val()
+        var username = $('#username').val()
         if (!username) {
           username = 'An danh'
         }
-        var $chatMessage = $('#textarea')
+        socket.emit('userConnect', {username})
+        var $chatMessage = $('#icon_prefix2')
         var $roomChat = $('#messages')
         
         $chatMessage.on('keydown', submitMessage)
         socket.on('output', displayChatMessage)
+        socket.on('chat:log', renderLogs)
+        socket.on('chat:log:num', renderLogs)
         function submitMessage(event) {
           if (event.which === 13 && event.shiftKey == false) {
             var content = $chatMessage.val()
@@ -57,13 +91,27 @@
         function displayChatMessage(data) {
           if (data.length) {
             for (let i = 0; i < data.length; i++) {
-              $roomChat.append(`<p><strong>${data[i].username}</strong>: ${data[i].content}</p>`)
+              $roomChat.append(`<li class="message"><span class="username" style="color: ${userColor}">${data[i].username}:</span> ${data[i].content}</li>`)
             }
           }
         }
         
+        function renderLogs(data) {
+          $roomChat.append(`<li class="log">${data.message}</li>`)
+        }
+        // function random_rgba() {
+        //   var o = Math.round, r = Math.random, s = 255;
+        //   return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
+        // }
+        
+        function getRandomRgb() {
+          var num = Math.round(0xffffff * Math.random());
+          var r = num >> 16;
+          var g = num >> 8 & 255;
+          var b = num & 255;
+          return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+        }
       }
     })
   </script>
-  <!-- <script src="/js/sockets.io"></script> -->
 {% endblock %}

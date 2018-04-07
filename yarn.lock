@@ -3051,6 +3051,10 @@ supports-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
 
+sweetalert2@7.18.0:
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-7.18.0.tgz#10f1019aae0a842eebefcf5b06fe42ea1ef53e79"
+
 tar-pack@^3.4.0:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/tar-pack/-/tar-pack-3.4.1.tgz#e1dbc03a9b9d3ba07e896ad027317eb679a10a1f"

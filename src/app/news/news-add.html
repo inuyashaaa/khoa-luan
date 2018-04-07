@@ -14,25 +14,27 @@
         </div>
       </div>
     </form>
-    <form action="/add-news" method="POST" class="col s12" role="form">
+    <form action="{{ router.url('post:add:news') }}" method="POST" class="col s12" role="form">
       <div class="row">
-        <input type="text" name="imageLink" hidden>
+        <input type="text" name="imageLink" value="/images/default-news.jpg" hidden>
         
         <div class="input-field col s12">
-          <input id="nameInput" type="text" name="title" class="validate">
-          <label for="nameInput">Tiêu đề bài viết</label>
+          <input id="titleInput" type="text" name="title" class="validate">
+          <label for="titleInput">Tiêu đề bài viết</label>
         </div>
+        
+        <input type="text" name="slug" hidden>
 
         <div class="input-field col s12">
-          <input id="schoolInput" type="text" name="description" class="validate">
-          <label for="schoolInput">Mô tả nội dung</label>
+          <input id="descriptionInput" type="text" name="description" class="validate">
+          <label for="descriptionInput">Mô tả nội dung</label>
         </div>
 
         <div class="input-field col s12">
           <textarea id="editor2" class="editor2" placeholder="Nội dung bài viết..." name="content" required></textarea>
         </div>
 
-        <div class="col s12 center-align">
+        <div class="col s12 center-align" style="margin-top: 15px;">
           <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Lưu bài viết
             <i class="material-icons right">send</i>
           </button>
@@ -56,8 +58,11 @@
     function addNewsPageReaddy() {
       var $btnFileUpload = $('input[name="fileUpload"]')
       var $inputFilePath = $('input[name="imageLink"]')
+      var $inputTitle = $('input[name="title"]')
+      var $inputSlug = $('input[name="slug"]')
 
       $btnFileUpload.on('change', triggerUploadFile)
+      $inputTitle.on('keyup', autoFillSlug)
 
       function triggerUploadFile(event) {
         event.preventDefault()
@@ -83,6 +88,42 @@
             }
           })
           .fail(console.log)
+      } // triggerUploadFile
+
+      function autoFillSlug() {
+        var inputTitleValue = $inputTitle.val()
+        $inputSlug.val(generateSlug(inputTitleValue))
+      }// autoFillSlug
+
+      function generateSlug(slugString) {
+        if (slugString.trim() === '') {
+          return ''
+        }
+        var date = new Date()
+        var slug = (change_alias(slugString) + '-' + date.getTime())
+          .trim()
+          .toString()
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/\-\-+/g, '-')
+          .replace(/.html/g, '')
+        return slug + '.html'
+      }
+
+      function change_alias(alias) {
+        var str = alias;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ + /g, " ");
+        str = str.trim();
+        return str;
       }
     }
   })

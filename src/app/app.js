@@ -18,10 +18,13 @@ const examsModule = require(path.resolve(__dirname, './exams'))
 const uploadModule = require(path.resolve(__dirname, './upload'))
 const newsModule = require(path.resolve(__dirname, './news'))
 const chatModule = require(path.resolve(__dirname, './chat'))
-
+const { isCurrentRouteMiddleware } = require(
+  path.resolve(__dirname, './_layout')
+)
 const { cookie: { signKeys } } = config
 const app = new Koa()
 const router = new Router()
+const publicRouter = new Router()
 const views = initViews({ router })
 const staticServeMiddleware = createStaticServeMiddleware(
   path.resolve(__dirname, '../public')
@@ -35,10 +38,13 @@ mongoose.connect(config.db.host, (err) => {
   }
 })
 
+router
+  .use(authModule.ensureLoginMiddleware)
+  .use(isCurrentRouteMiddleware)
 const passport = authModule.initAuthStrategies()
 // Init Router
-homeModule.init(router)
-authModule.init(router, passport)
+homeModule.init(publicRouter)
+authModule.init(publicRouter, passport)
 dashboardModule.init(router)
 quoteModule.init(router)
 examsModule.init(router)
@@ -59,6 +65,8 @@ app
   .use(passport.session())
   .use(router.routes())
   .use(router.allowedMethods())
+  .use(publicRouter.routes())
+  .use(publicRouter.allowedMethods())
 
 module.exports = app
 
@@ -72,6 +80,7 @@ function initViews ({ router }) {
   )
   dateFilter.setDefaultFormat('YYYY/MM/DD')
   env.addGlobal('router', router)
+  env.addGlobal('publicRouter', publicRouter)
   env.addFilter('date', dateFilter)
 
   return createViews(viewDirPath, {

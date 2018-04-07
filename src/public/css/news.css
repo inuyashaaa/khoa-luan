@@ -59,4 +59,19 @@ a.inverse:hover, a.inverse:active, a.inverse:focus {
     padding: 10px;
     margin: 10px 0px;
   }
+  .card-news-detail {
+    padding: 10px !important;
+  }
+}
+
+.item-title {
+  color: #151515;
+  font-size: 2.6rem;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.card-news-detail {
+  padding: 60px;
+  box-shadow: none;
 }
