@@ -9,13 +9,13 @@ function initAuth (router, passport) {
     prompt: 'consent'
   })
   const postGoogleLoginHandler = passport.authenticate('google', {
-    successRedirect: '/home/math',
+    successRedirect: '/home',
     failureRedirect: '/',
     failureFlash: 'Đăng nhập không thành công',
     successFlash: 'Bạn đã đăng nhập thành công'
   })
   const passportLoginLocal = passport.authenticate('local', {
-    successRedirect: '/home/math',
+    successRedirect: '/home',
     failureRedirect: '/',
     failureFlash: 'Đăng nhập không thành công',
     successFlash: 'Bạn đã đăng nhập thành công'

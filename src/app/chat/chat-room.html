@@ -37,7 +37,7 @@
         <div class="card chat-room-content">
           <h2 class="center-align chat-room-title">Phòng chat - Nơi trao đổi của mọi người</h2>
 
-          <input id="username" type="text" name="username" value="{{ user.username }}" >
+          <input id="username" type="text" name="username" value="{{ user.username }}" hidden>
           <ul id="messages" class="chat-room-message"></ul>
           <div class="row">
             <div class="input-field col s12">
@@ -70,7 +70,7 @@
 
         var username = $('#username').val()
         if (!username) {
-          username = 'An danh'
+          username = 'Cáo Ẩn Danh'
         }
         socket.emit('userConnect', {username})
         var $chatMessage = $('#icon_prefix2')
@@ -99,10 +99,6 @@
         function renderLogs(data) {
           $roomChat.append(`<li class="log">${data.message}</li>`)
         }
-        // function random_rgba() {
-        //   var o = Math.round, r = Math.random, s = 255;
-        //   return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',' + r().toFixed(1) + ')';
-        // }
         
         function getRandomRgb() {
           var num = Math.round(0xffffff * Math.random());
