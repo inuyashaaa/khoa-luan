@@ -93,8 +93,12 @@ function initNews (router) {
     const description = ctx.request.body.description
     const imageLink = ctx.request.body.imageLink
     const content = ctx.request.body.content
+    let isNews = ctx.request.body.isNews
+    if (!isNews) {
+      isNews = 1
+    }
     try {
-      const news = await News.update({ _id: idNews }, { title, slug, description, imageLink, content })
+      const news = await News.update({ _id: idNews }, { title, slug, description, imageLink, content, isNews })
       ctx.body = {
         success: true,
         message: 'Update news success!!!',
