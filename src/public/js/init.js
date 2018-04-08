@@ -5,7 +5,6 @@
 
   function homePageLoadReaddy () {
     var $aboutUs = $('.about-us-header')
-
     $(window).on('load', pageLoadding)
     $aboutUs.on('click', scollToAboutUs)
 

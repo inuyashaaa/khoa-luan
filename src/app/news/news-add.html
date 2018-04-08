@@ -31,9 +31,18 @@
         </div>
 
         <div class="input-field col s12">
-          <textarea id="editor2" class="editor2" placeholder="Nội dung bài viết..." name="content" required></textarea>
+          <select name="isNews">
+            <option value="" disabled selected>Chọn thể loại bài viết</option>
+            <option value="1">Tin tức tuyển sinh mới</option>
+            <option value="0">Bí kíp mùa thi</option>
+          </select>
+          <label>Thể loại bài viết</label>
         </div>
 
+        <div class="input-field col s12">
+          <textarea id="editor2" class="editor2" placeholder="Nội dung bài viết..." name="content" required></textarea>
+        </div>
+        
         <div class="col s12 center-align" style="margin-top: 15px;">
           <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Lưu bài viết
             <i class="material-icons right">send</i>
@@ -56,6 +65,7 @@
     $(addNewsPageReaddy)
 
     function addNewsPageReaddy() {
+      $('select').material_select();
       var $btnFileUpload = $('input[name="fileUpload"]')
       var $inputFilePath = $('input[name="imageLink"]')
       var $inputTitle = $('input[name="title"]')

@@ -23,7 +23,6 @@ const usersSchema = new Schema({
   avatar: { type: String, default: '/images/default-avatar.png' },
   createdDate: { type: Date, default: new Date().toISOString() },
   updatedDate: { type: Date, default: new Date().toISOString() },
-  // profile : { type : ObjectId, ref : 'profiles', default : null},
   rank: { type: Number, required: true, default: 0 },
   point: { type: Number, default: 0 },
   isAdmin: {type: Boolean, required: true, default: 0}

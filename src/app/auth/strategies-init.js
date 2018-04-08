@@ -20,8 +20,8 @@ const googleStrategy = new GoogleStrategy({
 }, verifyUserCredentials)
 
 passport.use(new LocalStrategy(
-  (username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
+  function (username, password, done) {
+    User.findOne({ email: username }, (err, user) => {
       if (err) {
         return
       }
@@ -32,13 +32,14 @@ passport.use(new LocalStrategy(
           }
           if (same) {
             return done(null, user)
+          } else {
+            return done(null, false)
           }
-          return done(null, false)
         })
       }
-      return done(null, false)
     })
-  }))
+  })
+)
 passport.use(googleStrategy)
 passport.serializeUser(persitToStorage)
 passport.deserializeUser(loadUserFromStorageToAppContext)
@@ -48,8 +49,6 @@ function persitToStorage (user, done) {
 }
 
 async function loadUserFromStorageToAppContext (email, done) {
-  console.log(email)
-
   try {
     User.findOne({ email: email }, (err, user) => {
       if (err) {
@@ -73,10 +72,7 @@ async function loadUserFromStorageToAppContext (email, done) {
 }
 
 async function verifyUserCredentials (token, refreshToken, profile, done) {
-  console.log(profile)
-
   const email = profile.emails[0].value
-  // done(null, profile)
   User.findOne({ email: email }, (error, user) => {
     if (error) return 0
     if (user) {
@@ -85,7 +81,7 @@ async function verifyUserCredentials (token, refreshToken, profile, done) {
     const newUser = {
       username: profile.displayName !== '' ? profile.displayName : profile.id,
       email: profile.emails[0].value,
-      avatar: profile.photos ? profile.photos[0].value : '/img/faces/unknown-user-pic.jpg',
+      avatar: profile.photos ? profile.photos[0].value : '/images/default-avatar.png',
       password: 12345678
     }
     User.findOne({})
@@ -95,7 +91,7 @@ async function verifyUserCredentials (token, refreshToken, profile, done) {
         if (err) {
           console.log(err)
         } else {
-          var id
+          let id
           if (doc && doc.id) {
             id = doc.id + 1
           } else {
@@ -105,8 +101,6 @@ async function verifyUserCredentials (token, refreshToken, profile, done) {
           User.create(newUser, (err, doc) => {
             if (err) {
               console.log(err)
-              console.log('message', err.message)
-              console.log('error message', err.errmsg)
             } else {
               return done(null, doc)
             }

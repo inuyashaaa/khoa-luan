@@ -43,3 +43,144 @@
     </div>
   </div>
 {% endblock %}
+
+{% block jsLib %}
+  <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+{% endblock %}
+{% block jsCustom %}
+  <script>
+  (function (pageHomeLoad) {
+    pageHomeLoad(window.jQuery)
+  })(function ($) {
+    $(pageHomeLoadReaddy)
+
+    function pageHomeLoadReaddy() {
+      var $btnSignup = $('.btnSignup')
+      var $btnLogin = $('#btnLogin')
+      var $formSignup = $('.formSignup')
+
+      $btnSignup.on('click', submitFormCreateUser)
+      $btnLogin.on('click', submitFormLogin)
+
+      function submitFormCreateUser(event) {
+        event.preventDefault()
+        let username = $('#usernameSignup').val()
+        let email = $('#emailSignup').val()
+        let password = $('#passwordSignup').val()
+        let rePassword = $('#rePasswordSignup').val()
+        if (!username) {
+          $('#usernameSignup').focus()
+          return Materialize.toast('Tên không được để trống', 4000, 'red')
+        }
+        if (!validateEmail(email)) {
+          $('#emailSignup').focus()
+          return Materialize.toast('Email bạn nhập không đúng định dạng!', 4000, 'red')
+        }
+        if (password !== rePassword) {
+          $('#rePasswordSignup').focus()
+          return Materialize.toast('Mật khẩu nhập lại không chính xác!', 4000, 'red')
+        }
+        $.ajax({
+          type: 'POST',
+          url: '/signup',
+          data: {username, email, password}
+        })
+        .done(function (respone) {
+          if (respone.success) {
+            swal({
+              type: 'success',
+              title: 'Đăng ký thành công',
+              text: 'Mời bạn đăng nhập lại sau 2 giây nữa',
+              timer: 2000,
+              onOpen: () => {
+                swal.showLoading()
+              }
+            })
+            $formSignup.trigger("reset")
+            setTimeout(() => {
+              $('#modal2').modal('close')
+            }, 3000)
+          }
+        })
+        .fail(function (error) {
+          swal({
+            type: 'error',
+            title: 'Opp!!! Đã xảy ra lỗi',
+            text: 'Mời bạn xem lại thông tin đăng ký',
+            timer: 2000,
+            onOpen: () => {
+              swal.showLoading()
+            }
+          })
+        })
+      }
+      
+      function submitFormLogin(event) {
+        event.preventDefault()
+        let username = $('#emailLogin').val()
+        let password = $('#passwordLogin').val()
+        if (!username) {
+          $('#emailLogin').focus()
+          return Materialize.toast('Email không được để chống!', 4000, 'red')
+        }
+        if (!validateEmail(username)) {
+          $('#emailLogin').focus()
+          return Materialize.toast('Email bạn nhập không đúng định dạng!', 4000, 'red')
+        }
+        if (!password) {
+          $('#passwordLogin').focus()
+          return Materialize.toast('Mật khẩu không được để chống!', 4000, 'red')
+        }
+        $.ajax({
+          type: 'POST',
+          url: '/login',
+          data: { username, password }
+        })
+        .done(function (respone) {
+          if (respone.success) {
+            swal({
+              type: 'success',
+              title: 'Đăng nhập thành công',
+              text: 'Bạn sẽ được chuyển tới trang chủ sau 2 giây nữa',
+              timer: 2000,
+              onOpen: () => {
+                swal.showLoading()
+              }
+            })
+            $formSignup.trigger("reset")
+            setTimeout(() => {
+              $('#modal2').modal('close')
+              window.location.href = '/home'
+            }, 3000)
+          }else {
+            swal({
+              type: 'error',
+              title: 'Opp!!! Đã xảy ra lỗi',
+              text: 'Mời bạn xem lại thông tin đăng ký',
+              timer: 2000,
+              onOpen: () => {
+                swal.showLoading()
+              }
+            })
+          }
+        })
+        .fail(function (error) {
+          swal({
+            type: 'error',
+            title: 'Opp!!! Đã xảy ra lỗi',
+            text: 'Mời bạn xem lại thông tin đăng ký',
+            timer: 2000,
+            onOpen: () => {
+              swal.showLoading()
+            }
+          })
+        })
+      }
+      function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+    }
+  })
+  </script>
+{% endblock %}

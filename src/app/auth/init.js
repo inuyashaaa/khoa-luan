@@ -1,5 +1,7 @@
 'use strict'
 
+const User = require('../user/model')
+
 module.exports = initAuth
 
 function initAuth (router, passport) {
@@ -15,13 +17,14 @@ function initAuth (router, passport) {
     successFlash: 'Bạn đã đăng nhập thành công'
   })
   const passportLoginLocal = passport.authenticate('local', {
-    successRedirect: '/home',
-    failureRedirect: '/',
-    failureFlash: 'Đăng nhập không thành công',
-    successFlash: 'Bạn đã đăng nhập thành công'
+    failureRedirect: '/'
   })
 
-  router.post('login', '/login', redirectToDaskboadIfAuthenticated, passportLoginLocal)
+  router.post('login', '/login',
+    redirectToDaskboadIfAuthenticated,
+    passportLoginLocal,
+    handleSuccessLogin
+  )
   router.get('logout', '/logout', doLogout)
   router.get('auth:google', '/auth/google',
     redirectToDaskboadIfAuthenticated,
@@ -31,27 +34,54 @@ function initAuth (router, passport) {
     redirectToDaskboadIfAuthenticated,
     postGoogleLoginHandler
   )
+  router.post('signup', '/signup', createNewUser)
 
-  // function displayLoginForm (ctx) {
-  //   if (ctx.isAuthenticated()) {
-  //     return ctx.redirect('/')
-  //   }
-  //   const {message = undefined} = Object.assign({}, ctx.session.flash)
-  //   if (ctx.session.flash && ctx.session.flash.message) {
-  //     delete ctx.session.flash.message
-  //   }
-  //   return ctx.render('home/home', {
-  //     errorMessage: message
-  //   })
-  // }
+  async function createNewUser (ctx) {
+    try {
+      const newUser = {
+        username: ctx.request.body.username,
+        email: ctx.request.body.email,
+        password: ctx.request.body.password
+      }
+      const lastUser = await User.findOne({}).select('id').sort({ id: -1 })
+      let id = 1
+      if (lastUser && lastUser.id) {
+        id = lastUser.id + 1
+      }
+      newUser.id = id
+      const user = await User.create(newUser)
+      ctx.body = {
+        success: true,
+        message: 'Create user done!!!',
+        data: user
+      }
+      return ctx.body
+    } catch (error) {
+      ctx.body = {
+        success: false,
+        message: 'Opp!!! Something went wrong!!!',
+        data: error
+      }
+      return ctx.body
+    }
+  }
 
   function doLogout (ctx) {
     ctx.logout()
     ctx.redirect('/')
   }
 
+  async function handleSuccessLogin (ctx) {
+    ctx.body = {
+      success: true,
+      message: 'Đăng nhập thành công!!!',
+      data: 'Đăng nhập thành công!!!'
+    }
+    return ctx.body
+  }
+
   async function redirectToDaskboadIfAuthenticated (ctx, next) {
-    if (ctx.isAuthenticated()) return ctx.redirect('/home/math')
+    if (ctx.isAuthenticated()) return ctx.redirect('/home')
     return next()
   }
 }

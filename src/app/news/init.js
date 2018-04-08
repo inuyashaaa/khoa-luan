@@ -9,6 +9,7 @@ module.exports = {
 function initNews (router) {
   router.get('get:add:news', '/add-news.html', isAdminMiddleWare, renderNewsForm)
   router.get('get:all:news', '/news', getAllNews)
+  router.get('get:all:keyed', '/keyed', getAllKeyed)
   router.get('get:detail:news', '/news/:slug', getDetailNews)
   router.get('get:edit:news', '/news/edit/:slug', isAdminMiddleWare, getEditNews)
   router.post('post:add:news', '/add-news.html', createNews)
@@ -27,8 +28,12 @@ function initNews (router) {
     const description = ctx.request.body.description
     const imageLink = ctx.request.body.imageLink
     const content = ctx.request.body.content
+    let isNews = ctx.request.body.isNews
+    if (!isNews) {
+      isNews = 1
+    }
     try {
-      const news = await News.create({ title, slug, description, imageLink, content })
+      const news = await News.create({ title, slug, description, imageLink, content, isNews, state: 1 })
       ctx.body = {
         success: true,
         message: 'Create news success!!!',
@@ -46,10 +51,19 @@ function initNews (router) {
   }
 
   async function getAllNews (ctx) {
-    const news = await News.find({}).sort({ updatedAt: -1 })
+    const news = await News.find({ isNews: 1 }).sort({ updatedAt: -1 })
 
     return ctx.render('news/news-list', {
       pageTitle: 'Tin tức - Kênh ôn thi đại học',
+      news
+    })
+  }
+
+  async function getAllKeyed (ctx) {
+    const news = await News.find({ isNews: 0 }).sort({ updatedAt: -1 })
+
+    return ctx.render('news/news-list', {
+      pageTitle: 'Bí kíp mùa thi - Kênh ôn thi đại học',
       news
     })
   }

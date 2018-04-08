@@ -29,7 +29,7 @@ const views = initViews({ router })
 const staticServeMiddleware = createStaticServeMiddleware(
   path.resolve(__dirname, '../public')
 )
-const sessionMiddleware = createSessionMiddleware({ maxAge: 7200000, renew: true }, app)
+const sessionMiddleware = createSessionMiddleware({ maxAge: 2592000000, renew: true }, app)
 mongoose.connect(config.db.host, (err) => {
   if (err) {
     console.log(err)
