@@ -24,7 +24,7 @@
             {% for exam in exams %}
               {% if exam.level == 'easy' %}
                 <div class="col s12">
-                  <div class="card horizontal">
+                  <div class="card horizontal hoverable">
                     <div class="card-image">
                       <img src="/images/math-exams.jpg" style="width: 170px;">
                     </div>
@@ -50,7 +50,7 @@
               Mức đề thi trung bình</h6>
               {% for exam in exams %} {% if exam.level == 'medium' %}
               <div class="col s12">
-                <div class="card horizontal">
+                <div class="card horizontal hoverable">
                   <div class="card-image">
                     <img src="/images/math-exams.jpg" style="width: 170px;">
                   </div>
@@ -76,7 +76,7 @@
                 Mức đề thi khó</h6>
                 {% for exam in exams %} {% if exam.level == 'hard' %}
                 <div class="col s12">
-                  <div class="card horizontal">
+                  <div class="card horizontal hoverable">
                     <div class="card-image">
                       <img src="/images/math-exams.jpg" style="width: 170px;">
                     </div>

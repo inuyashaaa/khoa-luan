@@ -56,22 +56,22 @@
 {% endblock %}
 {% block jsCustom %}
   <script>
-    // (function (cbFb) {
-    //   cbFb(window.jQuery, window)
-    // })(function ($, window) {
-    //   $(pageExamsReaddy)
+    (function (cbFb) {
+      cbFb(window.jQuery, window)
+    })(function ($, window) {
+      $(pageExamsReaddy)
 
-    //   function pageExamsReaddy() {
-    //     setInterval(myTimer, 30000)
+      function pageExamsReaddy() {
+        setInterval(myTimer, 1000 * 60 * 90)
         
-    //     function myTimer() {
-    //       alert("Đã hết thời gian !")
-    //       setInterval(redirect, 1000)
-    //     }
-    //     function redirect() {
-    //       $('#submit-answer-button').trigger('click')
-    //     }
-    //   }
-    // })
+        function myTimer() {
+          alert("Đã hết thời gian !")
+          setInterval(redirect, 1000)
+        }
+        function redirect() {
+          $('#submit-answer-button').trigger('click')
+        }
+      }
+    })
   </script>
 {% endblock %}
