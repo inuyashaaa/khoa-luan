@@ -61,23 +61,12 @@ left: 0px;
   margin-top: 2px;
 }
 
-/* #exams{
-  border: 3px solid #4DB6AC;
-  border-radius:  5px;
-} */
-
 .icon_of_menu_holizontal{
   height: 100%;
 }
 
 menu-holizontal{
   border-style: 5px solid #ffffff;
-}
-
-#block_avatar{
-  max-height: 100%;
-  position: relative;
-  padding-right: 20px;
 }
 
 #avatar{

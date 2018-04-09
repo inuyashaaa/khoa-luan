@@ -16,7 +16,9 @@
     $('.block_slidedown:eq(1)').slideDown('slow')
     $('.block_slidedown:eq(2)').slideDown(2000)
     $('.slider').slider()
-
+    $('.dropdown-button').dropdown({
+      belowOrigin: true
+    })
     function scollToAboutUs (e) {
       $('html, body').animate({
         scrollTop: 565

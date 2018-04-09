@@ -50,3 +50,8 @@ p {
 .logo-main {
   width: 125px;
 }
+
+.avatar-image{
+  border-radius: 40px;
+  vertical-align: middle;
+}
