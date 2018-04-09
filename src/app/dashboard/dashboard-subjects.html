@@ -5,101 +5,117 @@
 
 {% block content %}  
 {% include "_layout/nav-bar.html" %}
-<div class="row z-depth-2">
-  <div class="col s12 m8 offset-m1">
-    <div class="row">
-      <div class="col s12 l12">
-        <div class="block_slidedown quote">
-          <blockquote>
-            <strong>Những câu nói hay:</strong>
-            <br>
-            {{ quote }}
-            <br>
-          </blockquote>
-        </div>
-        <br>
-
-        <div class="block_slidedown">
-          <h6> Danh sách đề thi:</h6>
-          <h6><i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i> Dễ</h6>
-          <ul class="collapsible popout" data-collapsible="accordion">
+<div class="container-new">
+  <div class="row z-depth-2">
+    <div class="col s12 m9">
+      <div class="row">
+        <div class="col s12">
+          <div class="block_slidedown quote">
+            <blockquote>
+              <strong>Những câu nói hay:</strong>
+              <br> {{ quote }}
+              <br>
+            </blockquote>
+          </div>
+  
+          <div class="block_slidedown">
+            <h5> Danh sách đề thi môn TOÁN:</h5>
+            <h6><i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i> Mức đề thi dễ</h6>
             {% for exam in exams %}
               {% if exam.level == 'easy' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <div>Facebook is an American for-profit corporation and an online social</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                <div class="col s12">
+                  <div class="card horizontal">
+                    <div class="card-image">
+                      <img src="/images/math-exams.jpg" style="width: 170px;">
+                    </div>
+                    <div class="card-stacked">
+                      <div class="card-content new-card-content">
+                        <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}" class="link-news">{{ exam.name }}</a>
+                        <p>
+                          <span>Thời gian thi: 50 phút - Đã có 200 lượt thi thử</span>
+                        </p>
+                      </div>
+                      <div class="card-action news-card-action">
+                        <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                      </div>
                     </div>
                   </div>
-                </li>
+                </div>
               {% endif %}
             {% endfor %}
-          </ul>
-
-          <h6>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            Trung bình</h6>
-          <ul class="collapsible popout" data-collapsible="accordion">
-            {% for exam in exams %}
-              {% if exam.level == 'medium' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <div>Facebook is an American for-profit corporation and an online social</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+  
+            <h6>
+              <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+              <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+              Mức đề thi trung bình</h6>
+              {% for exam in exams %} {% if exam.level == 'medium' %}
+              <div class="col s12">
+                <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="/images/math-exams.jpg" style="width: 170px;">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content new-card-content">
+                      <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}" class="link-news">{{ exam.name }}</a>
+                      <p>
+                        <span>Thời gian thi: 50 phút - Đã có 200 lượt thi thử</span>
+                      </p>
+                    </div>
+                    <div class="card-action news-card-action">
+                      <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
                     </div>
                   </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-            
-          <h6>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
-            Khó</h6>
-          <ul class="collapsible popout" data-collapsible="accordion">
-            {% for exam in exams %}
-              {% if exam.level == 'hard' %}
-                <li class="checkFirst">
-                  <div class="collapsible-header name_of_exam">
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>{{ exam.name }}</div>
-                  <div class="collapsible-body">
-                    <div>Facebook is an American for-profit corporation and an online social</div>
-                    <div class="center">
-                      <a class="waves-effect waves-light btn" href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+  
+              <h6>
+                <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+                <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+                <i class="fa fa-star yellow-text fa-1x" aria-hidden="true"></i>
+                Mức đề thi khó</h6>
+                {% for exam in exams %} {% if exam.level == 'hard' %}
+                <div class="col s12">
+                  <div class="card horizontal">
+                    <div class="card-image">
+                      <img src="/images/math-exams.jpg" style="width: 170px;">
+                    </div>
+                    <div class="card-stacked">
+                      <div class="card-content new-card-content">
+                        <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}" class="link-news">{{ exam.name }}</a>
+                        <p>
+                          <span>Thời gian thi: 50 phút - Đã có 200 lượt thi thử</span>
+                        </p>
+                      </div>
+                      <div class="card-action news-card-action">
+                        <a href="/exam?nameOfExam={{ exam.name }}&subject={{ exam.subject }}">Làm đề thi</a>
+                      </div>
                     </div>
                   </div>
-                </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+                </div>
+                {% endif %} {% endfor %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col s12 m2">
-    <h6 class='center'>
-      <i class="fa fa-star-half-o yellow-text fa-lg" aria-hidden="true"></i> Top Ranking</h3>
-      <div class="divider"></div>
-      <table class="striped">
-        <tbody>
-          {% for topUser in topTenUser %}
+    <div class="col s12 m3">
+      <h6 class='center'>
+        <i class="fa fa-star-half-o yellow-text fa-lg" aria-hidden="true"></i> Top Ranking</h3>
+        <div class="divider"></div>
+        <table class="striped">
+          <tbody>
+            {% for topUser in topTenUser %}
             <tr>
               <td>{{ loop.index }}. {{ topUser.username }}</td>
               <td>{{ topUser.point }}</td>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
   </div>
 </div>
+
 {% endblock %}
 
 
