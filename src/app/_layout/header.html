@@ -1,32 +1,30 @@
 <div id="header">
   <nav class="white">
-    <div class="nav-wrapper nav-wrapper-login">
-      <a href="/home">
-        <b id="logo" style="font-size: 20px;">
-          <span style="color: rgb(66, 133, 244);">T</span><span style="color: rgb(234, 67, 53);">h</span><span style="color: rgb(243, 156, 18);">i</span><span style="color: rgb(52, 168, 83);">d</span><span style="color: rgb(234, 67, 53);">a</span><span style="color: rgb(66, 133, 244);">i</span><span style="color: rgb(243, 156, 18);">h</span><span style="color: rgb(52, 168, 83);">o</span><span style="color: rgb(66, 133, 245);">c</span><span style="color: rgb(234, 67, 53);">.</span><span style="color: rgb(52, 168, 83);">o</span><span style="color: rgb(66, 133, 244);">n</span><span style="color: rgb(234, 67, 53);">l</span><span style="color: rgb(243, 156, 18);">i</span><span style="color: rgb(52, 168, 83);">n</span><span style="color: rgb(234, 67, 53);">e</span>
-        </b>
-      </a>
+    <div class="nav-wrapper">
+        <a href="/home" class="brand-logo center">
+          <img src="/images/logo2.png" alt="Logo" class="logo-main">
+        </a>
       {% if not user %}
-        <ul class="right hide-on-med-and-down ">
+        <a href="#" data-activates="mobile-demo" class="button-collapse" style="color: black;">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down">
           <li class="about-us-header">
-            <a href="#" class="black-text menu">Về chúng tôi</a>
+            <a href="#" class="blue-text">Về chúng tôi</a>
           </li>
           <li>
-            <a href="#modal1" class="black-text menu">Đăng nhập</a>
+            <a href="#modal1" class="blue-text">Đăng nhập</a>
           </li>
           <li>
-            <a href="#modal2" class="black-text menu">Đăng ký thành viên</a>
+            <a href="#modal2" class="blue-text">Đăng ký thành viên</a>
           </li>
         </ul>
-        <ul id="nav-mobile" class="side-nav">
+        <ul id="mobile-demo" class="side-nav">
           <li>
-            <a href="#" class="black-text" onclick=" scroll_to_aboutus() ">Về chúng tôi</a>
+            <a href="#modal1" class="black-text">Đăng nhập</a>
           </li>
           <li>
-            <a href="#" class="black-text ">Đăng nhập</a>
-          </li>
-          <li>
-            <a href="# " class="black-text ">Đăng ký</a>
+            <a href="#modal2" class="black-text">Đăng ký thành viên</a>
           </li>
         </ul>
       {% endif %}

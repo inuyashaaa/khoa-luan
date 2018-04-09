@@ -151,3 +151,16 @@
   </div>
 </div>
 {% endblock %}
+{% block jsCustom %}
+  <script>
+    (function pageDashBoardLoadReaddy(cbFn) {
+      cbFn(window.jQuery)
+    })(function ($) {
+      $(pageDashBoardReaddy)
+
+      function pageDashBoardReaddy() {
+        $('.button-collapse').sideNav()
+      }
+    })
+  </script>
+{% endblock %}

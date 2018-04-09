@@ -2,7 +2,6 @@
 
 {% block content %}
   <div class="parallax-container index-banner">
-
     <div class="parallax">
       <img src="/images/home.png">
     </div>
@@ -10,7 +9,7 @@
   
   <div class="row container">
     <div class="col s12">
-      <h3 class="black-text center-align about_us">VỀ BỌN MÌNH</h1>
+      <h3 class="black-text center-align about_us">VỀ CHÚNG TÔI</h1>
     </div>
     <div class="col s12 m6">
       <div class="icon-block">
@@ -55,6 +54,7 @@
     $(pageHomeLoadReaddy)
 
     function pageHomeLoadReaddy() {
+      $('.button-collapse').sideNav()
       var $btnSignup = $('.btnSignup')
       var $btnLogin = $('#btnLogin')
       var $formSignup = $('.formSignup')
