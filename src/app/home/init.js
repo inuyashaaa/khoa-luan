@@ -7,7 +7,7 @@ function initHomePage (router) {
 
   async function renderHomePage (ctx) {
     return ctx.render('home/home', {
-      pageTitle: 'Luyen Thi Dai Hoc'
+      pageTitle: 'Ôn thi đại học trực tuyến miễn phí'
     })
   }
 }
