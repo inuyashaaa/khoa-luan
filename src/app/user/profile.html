@@ -1,21 +1,52 @@
 {% extends "_layout/layout.html" %}
 {% block content %}
+{% include "_layout/nav-bar.html" %}
 <div class="container">
   <div class="row">
     <div class="col s12">
-      <div class="card">
-        <!-- <div class="card-image">
-          <img src="images/sample-1.jpg">
-          <span class="card-title">Card Title</span>
-        </div> -->
-        <div class="card-content">
-          <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little
-            markup to use effectively.</p>
-        </div>
-        <div class="card-action">
-          <a href="#">This is a link</a>
-        </div>
-      </div>
+      <h2 class="center-align">Thông tin cá nhân</h2>
+      <ul class="collection">
+        <li class="collection-item avatar">
+          <img src="{{ user.avatar }}" alt="" class="circle">
+          <span class="title">Title</span>
+          <p>First Line
+            <br> Second Line
+          </p>
+          <a href="#!" class="secondary-content">
+            <i class="material-icons">grade</i>
+          </a>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle">folder</i>
+          <span class="title">Title</span>
+          <p>First Line
+            <br> Second Line
+          </p>
+          <a href="#!" class="secondary-content">
+            <i class="material-icons">grade</i>
+          </a>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle green">insert_chart</i>
+          <span class="title">Title</span>
+          <p>First Line
+            <br> Second Line
+          </p>
+          <a href="#!" class="secondary-content">
+            <i class="material-icons">grade</i>
+          </a>
+        </li>
+        <li class="collection-item avatar">
+          <i class="material-icons circle red">play_arrow</i>
+          <span class="title">Title</span>
+          <p>First Line
+            <br> Second Line
+          </p>
+          <a href="#!" class="secondary-content">
+            <i class="material-icons">grade</i>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
