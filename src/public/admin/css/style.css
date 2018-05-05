@@ -1,0 +1,11 @@
+.box-shadow-new {
+  box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.2);
+}.modal .modal-body p.title {
+  display: inline-block;
+  width: 10%;
+  font-weight: 500;
+}
+
+.paginate_button.current {
+  background-color: #f9982f !important;
+}

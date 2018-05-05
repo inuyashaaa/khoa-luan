@@ -10,7 +10,8 @@ var exams = new Schema({
   examspath: { type: String },
   level: { type: String, required: true },
   year: { type: String },
-  name: { type: String, required: true, unique: true }
+  name: { type: String, required: true, unique: true },
+  state: { type: Boolean, required: true, default: 1 }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Exams', exams)

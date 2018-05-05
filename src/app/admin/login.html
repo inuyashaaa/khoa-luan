@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Vendor styles -->
+  <link rel="stylesheet" href="/admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="/admin/vendors/bower_components/animate.css/animate.min.css">
+  <!-- App styles -->
+  <link rel="stylesheet" href="/admin/css/app.min.css">
+</head>
+
+<body data-ma-theme="orange">
+  <div class="login" data-message="{{errorMessage if(errorMessage)}}">
+
+    <!-- Login -->
+    <div class="login__block active" id="l-login">
+      <div class="login__block__header">
+        <i class="zmdi zmdi-account-circle"></i>
+        Please Sign in by Gmail
+      </div>
+
+      <div class="login__block__body">
+        <a href="/auth/google" class="btn btn--icon login__block__btn">
+          <i class="zmdi zmdi-long-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <script src="/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/admin/vendors/bower_components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+  <script>
+
+    (function (loginPageLoad) {
+      loginPageLoad(window.jQuery)
+    })(function loginPageLoad($) {
+      $(loginPageReady)
+      function loginPageReady() {
+        var loginMessageError = $('[data-message]').data('message')
+        if (loginMessageError === '') {
+          return;
+        }
+        notify({ message: loginMessageError })
+      }
+    })
+
+    function notify(opts) {
+      var opts = opts || {}
+      var from = opts.from || 'top'
+      var align = opts.align || 'center'
+      var icon = opts.icon || 'fa fa-check'
+      var type = opts.type || 'danger'
+      var animIn = opts.animIn || undefined
+      var animOut = opts.type || undefined
+      var message = opts.message || 'Turning standard Bootstrap alerts into awesome notifications'
+      $.notify({
+        icon: icon,
+        //title: 'Login notify',
+        message: message,
+        url: ''
+      }, {
+          element: 'body',
+          type: type,
+          allow_dismiss: true,
+          placement: {
+            from: from,
+            align: align
+          },
+          offset: {
+            x: 20,
+            y: 20
+          },
+          spacing: 10,
+          z_index: 1031,
+          delay: 2500,
+          timer: 1000,
+          url_target: '_blank',
+          mouse_over: false,
+          animate: {
+            enter: animIn,
+            exit: animOut
+          },
+          template: '<div data-notify="container" class="alert alert-dismissible alert-{0} alert--notify" role="alert">' +
+            '<span data-notify="icon"></span> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            '</div>' +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+            '<button type="button" aria-hidden="true" data-notify="dismiss" class="alert--notify__close">Close</button>' +
+            '</div>'
+        })
+    }
+  </script>
+</body>
+
+</html>

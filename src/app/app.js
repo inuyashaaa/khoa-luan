@@ -18,6 +18,7 @@ const examsModule = require(path.resolve(__dirname, './exams'))
 const uploadModule = require(path.resolve(__dirname, './upload'))
 const newsModule = require(path.resolve(__dirname, './news'))
 const chatModule = require(path.resolve(__dirname, './chat'))
+const adminModule = require(path.resolve(__dirname, './admin'))
 const { isCurrentRouteMiddleware } = require(
   path.resolve(__dirname, './_layout')
 )
@@ -51,6 +52,7 @@ examsModule.init(router)
 uploadModule.init(router)
 newsModule.init(router)
 chatModule.init(router)
+adminModule.init(router)
 
 app.proxy = true
 app.keys = signKeys.split(',')

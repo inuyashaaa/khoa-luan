@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Vendor styles -->
+  <link rel="stylesheet" href="/admin/vendors/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/admin/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css">
+  <link rel="stylesheet" href="/admin/vendors/bower_components/animate.css/animate.min.css">
+  <link rel="stylesheet" href="/admin/vendors/bower_components/jquery.scrollbar/jquery.scrollbar.css">
+  <link rel="stylesheet" href="/admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css">
+
+  {% block cssLib %}
+  {% endblock %}
+
+  <!-- App styles -->
+  <link rel="stylesheet" href="/admin/css/app.min.css">
+  <link rel="stylesheet" href="/admin/css/style.css">
+  {% block newCss %}
+  {% endblock %}
+  <title>Trang quản trị - Ôn thi đại học trực tuyến miễn phí</title>
+</head>
+
+<body data-ma-theme="orange">
+  <main class="main">
+    <div class="page-loader">
+      <div class="page-loader__spinner">
+        <svg viewBox="25 25 50 50">
+          <circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="navigation-trigger" data-ma-action="aside-open" data-ma-target=".sidebar">
+        <div class="navigation-trigger__inner">
+          <i class="navigation-trigger__line"></i>
+          <i class="navigation-trigger__line"></i>
+          <i class="navigation-trigger__line"></i>
+        </div>
+      </div>
+    
+      <div class="header__logo hidden-sm-down">
+        <h1>
+          <a href="/admin/home">Trang quản trị</a>
+        </h1>
+      </div>
+    </header>
+    <aside class="sidebar">
+      <div class="scrollbar-inner">
+        <div class="user">
+          <div class="user__info" data-toggle="dropdown">
+            <img class="user__img" src="{{user.avatar}}" alt="">
+            <div>
+              <div class="user__name">{{user.username}}</div>
+              <div class="user__email">{{user.email}}</div>
+            </div>
+          </div>
+    
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/logout">Đăng xuất</a>
+          </div>
+        </div>
+    
+        <ul class="navigation">
+          <li class="{{ 'navigation__active' if isCurrentRoute('home') }}">
+            <a href="/admin/home">
+              <i class="zmdi zmdi-home"></i> Home</a>
+          </li>
+    
+          <li class="navigation__sub {{ 'navigation__sub--active navigation__sub--toggled' if isCurrentRoute('get:add:news') or isCurrentRoute('get:all:news') }}">
+            <a href="">
+              <i class="zmdi zmdi-file zmdi-hc-fw"></i> Tin tức</a>
+    
+            <ul>
+              <li {{ 'class=navigation__active' if isCurrentRoute( 'get:add:news') }}>
+                <a href="{{ router.url('get:add:news') }}">Tạo mới tin tức</a>
+              </li>
+              <li {{ 'class=navigation__active' if isCurrentRoute( 'get:all:news') }}>
+                <a href="{{ router.url('get:all:news') }}">Danh sách tin tức</a>
+              </li>
+            </ul>
+          </li>
+    
+          <li class="navigation__sub">
+            <a href="">
+              <i class="zmdi zmdi-folder-person zmdi-hc-fw"></i> Đề thi</a>
+    
+            <ul>
+              <li>
+                <a href="/">Tạo mới đề thi</a>
+              </li>
+              <li>
+                <a href="/">Danh sách đề thi</a>
+              </li>
+            </ul>
+          </li>
+    
+        </ul>
+      </div>
+    </aside>
+
+    <section class="content content--full">
+
+      <!-- Content page -->
+      {% block content %} {% endblock %}
+      <!-- End content page -->
+
+      <footer class="footer hidden-xs-down">
+        <p>© Thidaihoc.online. All rights reserved.</p>
+      
+        <ul class="nav footer__nav">
+          <a class="nav-link" href="/">Trang chủ</a>
+      
+          <a class="nav-link" href="/">Tin tức</a>
+      
+          <a class="nav-link" href="/">Đề thi</a>
+      
+        </ul>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Javascript -->
+  <!-- Vendors -->
+  <script src="/admin/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/admin/vendors/bower_components/tether/dist/js/tether.min.js"></script>
+  <script src="/admin/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/admin/vendors/bower_components/Waves/dist/waves.min.js"></script>
+  <script src="/admin/vendors/bower_components/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+  <script src="/admin/vendors/bower_components/jquery-scrollLock/jquery-scrollLock.min.js"></script>
+  <script src="/admin/vendors/bower_components/moment/min/moment.min.js"></script>
+  <script src="/admin/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+  {% block scriptLib %} {% endblock %}
+  <!-- App functions and actions -->
+  <script src="/admin/js/app.min.js"></script> {% block userScript %} {% endblock %}
+</body>
+
+</html>

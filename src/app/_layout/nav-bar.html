@@ -20,6 +20,12 @@
         <a href="{{ router.url('get:chat-room') }}">
           <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Phòng trò chuyện</a>
       </li>
+      {% if user.isAdmin %}
+        <li>
+          <a href="/admin/home">
+            <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Trang quản trị</a>
+        </li>
+      {% endif %}
     </ul>
     <ul class="right" style="max-height:100%">
       <a class="dropdown-button" data-activates="dropdownProfile">

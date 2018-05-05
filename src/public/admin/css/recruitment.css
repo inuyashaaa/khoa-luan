@@ -1,0 +1,18 @@
+
+#formJob label {
+font-size: 14px ;
+line-height: 1.42857143 ;
+font-weight: bold ;
+}
+
+div.has-error {
+  color: #ff6b68;
+}
+
+label.has-error {
+  color: #ff6b68;
+}
+
+.notes .card-demo .card .card-header .card-title{
+  min-height: 53.65px !important;
+}
