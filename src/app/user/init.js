@@ -3,7 +3,16 @@
 const User = require('./model')
 
 module.exports = {
+  initUser,
   getTopTenUser
+}
+
+function initUser (router) {
+  router.get('user:profile', '/profile.html', renderUserProfile)
+
+  async function renderUserProfile (ctx) {
+    return ctx.render('user/profile')
+  }
 }
 
 async function getTopTenUser () {

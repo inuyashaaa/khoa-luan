@@ -19,6 +19,7 @@ const uploadModule = require(path.resolve(__dirname, './upload'))
 const newsModule = require(path.resolve(__dirname, './news'))
 const chatModule = require(path.resolve(__dirname, './chat'))
 const adminModule = require(path.resolve(__dirname, './admin'))
+const userModule = require(path.resolve(__dirname, './user'))
 const { isCurrentRouteMiddleware } = require(
   path.resolve(__dirname, './_layout')
 )
@@ -53,6 +54,7 @@ uploadModule.init(router)
 newsModule.init(router)
 chatModule.init(router)
 adminModule.init(router)
+userModule.init(router)
 
 app.proxy = true
 app.keys = signKeys.split(',')
