@@ -4,49 +4,30 @@
 <div class="container">
   <div class="row">
     <div class="col s12">
-      <h2 class="center-align">Thông tin cá nhân</h2>
-      <ul class="collection">
-        <li class="collection-item avatar">
-          <img src="{{ user.avatar }}" alt="" class="circle">
-          <span class="title">Title</span>
-          <p>First Line
-            <br> Second Line
-          </p>
-          <a href="#!" class="secondary-content">
-            <i class="material-icons">grade</i>
-          </a>
-        </li>
-        <li class="collection-item avatar">
-          <i class="material-icons circle">folder</i>
-          <span class="title">Title</span>
-          <p>First Line
-            <br> Second Line
-          </p>
-          <a href="#!" class="secondary-content">
-            <i class="material-icons">grade</i>
-          </a>
-        </li>
-        <li class="collection-item avatar">
-          <i class="material-icons circle green">insert_chart</i>
-          <span class="title">Title</span>
-          <p>First Line
-            <br> Second Line
-          </p>
-          <a href="#!" class="secondary-content">
-            <i class="material-icons">grade</i>
-          </a>
-        </li>
-        <li class="collection-item avatar">
-          <i class="material-icons circle red">play_arrow</i>
-          <span class="title">Title</span>
-          <p>First Line
-            <br> Second Line
-          </p>
-          <a href="#!" class="secondary-content">
-            <i class="material-icons">grade</i>
-          </a>
-        </li>
-      </ul>
+      <div class="card">
+        <div class="card-image">
+          <img src="images/profile.png">
+          <div class="card-title center-align">Thông tin cá nhân</div>
+        </div>
+        <div class="card-content">
+          <ul class="collection">
+            <li class="collection-item avatar">
+              <img src="{{ user.avatar }}" alt="" class="circle">
+              <span class="title">{{ user.username }}</span>
+              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p><strong>Điểm tích lũy:</strong> {{ user.point }}</p>
+              <p><strong>Xếp hạng:</strong> {{ user.rank }}</p>
+              <p><strong>Ngày tạo tài khoản:</strong> {{ user.createdDate | date }}</p>
+              <a href="#!" class="secondary-content">
+                <i class="material-icons">grade</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-action">
+          <a href="#">Thay đổi thông tin cá nhân</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

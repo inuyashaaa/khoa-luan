@@ -82,7 +82,7 @@ function initViews ({ router }) {
   const env = new nunjucks.Environment(
     new nunjucks.FileSystemLoader(viewDirPath)
   )
-  dateFilter.setDefaultFormat('YYYY/MM/DD')
+  dateFilter.setDefaultFormat('DD/MM/YYYY')
   env.addGlobal('router', router)
   env.addGlobal('publicRouter', publicRouter)
   env.addFilter('date', dateFilter)
