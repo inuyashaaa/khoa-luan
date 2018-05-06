@@ -19,7 +19,7 @@ function initExams (router) {
 
 async function getFormAddExams (ctx) {
   return ctx.render('exams/exams-add', {
-    pageTitle: 'Add new exams'
+    pageTitle: 'Thêm bài thi - Ôn thi đại học trực tuyến'
   })
 }
 
@@ -30,7 +30,7 @@ async function getDoExams (ctx) {
   const exam = await Exams.findOne({ name: nameOfExam, subject: subject })
 
   return ctx.render('exams/exams', {
-    pageTitle: 'Do Exams',
+    pageTitle: 'Làm bài thi - Ôn thi đại học trực tuyến',
     nameOfExam,
     subject,
     exam
