@@ -51,7 +51,7 @@ function initNews (router) {
   }
 
   async function getAllNews (ctx) {
-    const news = await News.find({ isNews: 1 }).sort({ updatedAt: -1 })
+    const news = await News.find({ isNews: 1, state: true }).sort({ updatedAt: -1 })
 
     return ctx.render('news/news-list', {
       pageTitle: 'Tin tức - Kênh ôn thi đại học',
@@ -60,7 +60,7 @@ function initNews (router) {
   }
 
   async function getAllKeyed (ctx) {
-    const news = await News.find({ isNews: 0 }).sort({ updatedAt: -1 })
+    const news = await News.find({ isNews: 0, state: true }).sort({ updatedAt: -1 })
 
     return ctx.render('news/news-list', {
       pageTitle: 'Bí kíp mùa thi - Kênh ôn thi đại học',
@@ -97,8 +97,9 @@ function initNews (router) {
     if (!isNews) {
       isNews = 1
     }
+    let state = true
     try {
-      const news = await News.update({ _id: idNews }, { title, slug, description, imageLink, content, isNews })
+      const news = await News.update({ _id: idNews }, { $set: { title, slug, description, imageLink, content, isNews, state } })
       ctx.body = {
         success: true,
         message: 'Update news success!!!',
@@ -123,7 +124,7 @@ function initNews (router) {
         message: 'Update news success!!!',
         data: news
       }
-      return ctx.body
+      return ctx.redirect('back')
     } catch (error) {
       ctx.body = {
         success: false,

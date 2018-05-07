@@ -1,0 +1,50 @@
+{% extends "_layout/admin.layout.html" %} {% block content %}
+<div class="row">
+  <div class="col-md-10 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Danh sách bài viết</h2>
+      </div>
+
+      <div class="card-block">
+        <table class="table table-bordered mb-0">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên</th>
+              <th>Mô tả</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for news in newsList %}
+            <tr>
+              <th scope="row">{{ loop.index }}</th>
+              <td>{{ news.title }}</td>
+              <td>{{ news.description | truncate(100) }}</td>
+              <td>{% if news.state %}
+                <button type="button" class="btn btn-success waves-effect" disabled="">Hiển thị</button>
+                {% else %}
+                <button type="button" class="btn btn-danger waves-effect" disabled="">Đang ẩn</button>
+                {% endif %}</td>
+
+              <td>
+                <a href="/news/edit/{{ news.slug }}" class="btn btn-success waves-effect">Sửa</a>
+                <a href="/news/delete/{{ news._id }}" class="btn btn-danger waves-effect">Xóa</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scriptLib %}
+<!-- Charts and maps-->
+<script src="/admin/demo/js/flot-charts/curved-line.js"></script>
+<script src="/admin/demo/js/flot-charts/line.js"></script>
+<script src="/admin/demo/js/flot-charts/chart-tooltips.js"></script>
+<script src="/admin/demo/js/other-charts.js"></script>
+<script src="/admin/demo/js/jqvmap.js"></script> {% endblock %}

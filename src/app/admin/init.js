@@ -8,6 +8,7 @@ module.exports = initAdmin
 function initAdmin (router) {
   router.get('get:admin', '/admin/home', renderAdminHomePage)
   router.get('/admin/exams-list.html', renderListExams)
+  router.get('/admin/news-list.html', renderListNews)
   async function renderAdminHomePage (ctx) {
     const deleleExams = await Exams.find({ state: 0 })
     const publishExams = await Exams.find({ state: true })
@@ -23,10 +24,16 @@ function initAdmin (router) {
 
   async function renderListExams (ctx) {
     const exams = await Exams.find({})
-    console.log(exams)
 
     return ctx.render('admin/exams-list', {
       exams
+    })
+  }
+  async function renderListNews (ctx) {
+    const newsList = await News.find({})
+
+    return ctx.render('admin/news-list', {
+      newsList
     })
   }
 }
