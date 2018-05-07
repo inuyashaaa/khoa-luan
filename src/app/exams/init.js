@@ -257,7 +257,7 @@ async function getResultExams (ctx) {
 }
 
 async function getAllExamsBySubject (subject) {
-  const exams = await Exams.find({ subject: subject })
+  const exams = await Exams.find({ subject: subject, state: true })
   return exams
 }
 
