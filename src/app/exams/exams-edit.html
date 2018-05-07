@@ -1,0 +1,98 @@
+{% extends "_layout/layout.html" %} {% block content %} {% include "_layout/nav-bar.html" %}
+<div class="row" style="margin-top: 10px;">
+  <div class="col s12 m8 offset-m2 z-depth-2">
+    <h3 class="center-align light-blue-text">Chỉnh sửa đề thi</h3>
+    <form action="/exams/edit" method="POST" class="col s12" role="form">
+      <input type="text" name="idExam" value="{{ exam._id }}" hidden>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="nameInput" type="text" name="name" class="validate" value="{{ exam.name }}">
+          <label for="nameInput">Tên đề thi</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="schoolInput" type="text" name="school" class="validate" value="{{ exam.school }}">
+          <label for="schoolInput">Trường phát hành đề thi</label>
+        </div>
+
+        <div class="input-field col s12">
+          <select name="subject">
+            <option value="" disabled selected>Chọn môn học</option>
+            <option value="math">Toán</option>
+            <option value="physic">Lý</option>
+            <option value="chemistry">Hóa</option>
+            <option value="biology">Sinh</option>
+            <option value="english">Tiếng Anh</option>
+          </select>
+          <label>Môn học</label>
+        </div>
+
+        <div class="input-field col s12">
+          <select name="state">
+            <option value="" disabled selected>Chọn trạng thái bài thi</option>
+            <option value="1">Hiển thị</option>
+            <option value="0">Ẩn</option>
+          </select>
+          <label>Trạng thái</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="numberOfQuestion" type="number" name="numberOfQuestions" class="validate" value="{{ exam.numberOfQuestions }}">
+          <label for="numberOfQuestion">Số lượng câu hỏi trong đề</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="answerInput" type="text" name="answers" class="validate" data-length="50" value="{{ exam.answers }}">
+          <label for="answerInput">Danh sách câu trả lời</label>
+        </div>
+
+        <div class="input-field col s12">
+          <select name="level">
+            <option value="" disabled selected>Chọn mức độ của đề</option>
+            <option value="easy">Dễ </option>
+            <option value="medium">Trung bình</option>
+            <option value="hard">Khó</option>
+          </select>
+          <label>Mức độ đề thi</label>
+        </div>
+
+        <div class="input-field col s12">
+          <input id="yearInput" type="text" name="year" class="validate" value="{{ exam.year }}">
+          <label for="yearInput">Năm học</label>
+        </div>
+
+        <div class="col s12 center-align">
+          <button class="btn waves-effect waves-light light-blue" type="submit" name="action">Lưu đề thi
+            <i class="material-icons right">send</i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block jsCustom %}
+<script>
+  (function (cbFn) {
+    cbFn(window.jQuery, window)
+  })(function ($, window) {
+    $(addExamsPageReaddy)
+
+    function addExamsPageReaddy() {
+      var $answerInput = $('#answerInput')
+      var $numberOfQuestion = $('#numberOfQuestion')
+      var $selectInput = $('select')
+
+      $numberOfQuestion.on('keyup', setNumberAnswer)
+      $answerInput.characterCounter()
+      $selectInput.material_select()
+
+      function setNumberAnswer(event) {
+        var numberAnswer = $(event.currentTarget).val()
+        $answerInput.attr('data-length', numberAnswer)
+      }
+    }
+  })
+</script>
+{% endblock %}

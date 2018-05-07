@@ -13,8 +13,10 @@ module.exports = {
 function initExams (router) {
   router.get('get:add:exams', '/add-exams.html', isAdminMiddleWare, getFormAddExams)
   router.get('get:do:exams', '/exam', getDoExams)
+  router.get('get:edit:exams', '/exams/edit/:slug', isAdminMiddleWare, getEditExams)
   router.post('post:add:exams', '/add-exams', addExams)
   router.post('post:exams:result', '/result', getResultExams)
+  router.post('post:edit:exams', '/exams/edit', updateExams)
   router.get('get:delete:exams', '/exams/delete/:id', deleteExams)
 }
 
@@ -69,7 +71,7 @@ async function addExams (ctx) {
         message: 'Create Exams Done!!!',
         data: dataCreate
       }
-      return ctx.body
+      return ctx.redirect(`/admin/exams-list.html`)
     }
   } catch (error) {
     ctx.body = {
@@ -81,6 +83,46 @@ async function addExams (ctx) {
   }
 }
 
+async function getEditExams (ctx) {
+  const idExam = ctx.params.slug
+  const exam = await Exams.findOne({ _id: idExam })
+
+  return ctx.render('exams/exams-edit', {
+    pageTitle: exam.title,
+    exam
+  })
+}
+
+async function updateExams (ctx) {
+  const idExam = ctx.request.body.idExam
+  const name = ctx.request.body.name
+  const school = ctx.request.body.school
+  const subject = ctx.request.body.subject
+  const numberOfQuestions = ctx.request.body.numberOfQuestions
+  const year = ctx.request.body.year
+  let state = ctx.request.body.state
+  console.log(state)
+
+  if (!state) {
+    state = false
+  }
+  try {
+    const exam = await Exams.update({ _id: idExam }, { $set: { name, school, subject, numberOfQuestions, year, state } })
+    ctx.body = {
+      success: true,
+      message: 'Update exam success!!!',
+      data: exam
+    }
+    return ctx.redirect(`/admin/exams-list.html`)
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      message: 'Opp!!! Something went wrong!!!',
+      data: error
+    }
+    return ctx.body
+  }
+}
 async function getResultExams (ctx) {
   let userAnswer = []
   userAnswer.push(ctx.request.body.q1)
@@ -228,7 +270,7 @@ async function deleteExams (ctx) {
       message: 'Delete exams success!!!',
       data: news
     }
-    return ctx.body
+    return ctx.redirect('back')
   } catch (error) {
     ctx.body = {
       success: false,

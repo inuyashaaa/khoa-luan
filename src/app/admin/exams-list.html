@@ -31,7 +31,10 @@
                   <button type="button" class="btn btn-danger waves-effect" disabled="">Đang ẩn</button>
                 {% endif %}</td>
                   
-                <td><a href="/exams/delete/{{ exam._id }}" class="btn btn-danger waves-effect">Xóa</a></td>
+                <td>
+                  <a href="/exams/edit/{{ exam._id }}" class="btn btn-success waves-effect">Sửa</a>
+                  <a href="/exams/delete/{{ exam._id }}" class="btn btn-danger waves-effect">Xóa</a>
+                </td>
               </tr>
             {% endfor %}
           </tbody>
