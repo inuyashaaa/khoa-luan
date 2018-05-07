@@ -6,7 +6,7 @@ function initHomePage (router) {
   router.get('/', renderHomePage)
 
   async function renderHomePage (ctx) {
-    return ctx.render('home/home', {
+    return ctx.render('get:home', 'home/home', {
       pageTitle: 'Ôn thi đại học trực tuyến miễn phí'
     })
   }

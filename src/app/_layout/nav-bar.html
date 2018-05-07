@@ -4,19 +4,19 @@
       <i class="material-icons">menu</i>
     </a>
     <ul class="left hide-on-med-and-down">
-      <li class="active">
+      <li class="{{ 'active' if isCurrentRoute('dashboard') or isCurrentRoute('dashboard:subject') or isCurrentRoute('get:do:exams') }}">
         <a href="/home">
           <i class="fa fa-book icon_of_menu_holizontal" aria-hidden="true"></i> Môn Học</a>
       </li>
-      <li>
+      <li class="{{ 'active' if isCurrentRoute('get:all:keyed') }}">
         <a href="{{ router.url('get:all:keyed') }}">
           <i class="fa fa-bar-chart icon_of_menu_holizontal" aria-hidden="true"></i> Bí quyết mùa thi</a>
       </li>
-      <li>
+      <li class="{{ 'active' if isCurrentRoute('get:all:news') }}">
         <a href="{{ router.url('get:all:news') }}">
           <i class="fa fa-newspaper-o icon_of_menu_holizontal" aria-hidden="true"></i> Tin Tức</a>
       </li>
-      <li>
+      <li class="{{ 'active' if isCurrentRoute('get:chat-room') }}">
         <a href="{{ router.url('get:chat-room') }}">
           <i class="fa fa-commenting icon_of_menu_holizontal" aria-hidden="true"></i> Phòng trò chuyện</a>
       </li>

@@ -6,7 +6,7 @@ const News = require('../news/model')
 module.exports = initAdmin
 
 function initAdmin (router) {
-  router.get('/admin/home', renderAdminHomePage)
+  router.get('get:admin', '/admin/home', renderAdminHomePage)
   router.get('/admin/exams-list.html', renderListExams)
   async function renderAdminHomePage (ctx) {
     const deleleExams = await Exams.find({ state: 0 })
