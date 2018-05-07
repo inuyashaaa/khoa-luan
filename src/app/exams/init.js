@@ -15,6 +15,7 @@ function initExams (router) {
   router.get('get:do:exams', '/exam', getDoExams)
   router.post('post:add:exams', '/add-exams', addExams)
   router.post('post:exams:result', '/result', getResultExams)
+  router.get('get:delete:exams', '/exams/delete/:id', deleteExams)
 }
 
 async function getFormAddExams (ctx) {
@@ -216,4 +217,24 @@ async function getResultExams (ctx) {
 async function getAllExamsBySubject (subject) {
   const exams = await Exams.find({ subject: subject })
   return exams
+}
+
+async function deleteExams (ctx) {
+  const idExam = ctx.params.id
+  try {
+    const news = await Exams.update({ _id: idExam }, { $set: { state: false } })
+    ctx.body = {
+      success: true,
+      message: 'Delete exams success!!!',
+      data: news
+    }
+    return ctx.body
+  } catch (error) {
+    ctx.body = {
+      success: false,
+      message: 'Opp!!! Something went wrong!!!',
+      data: error
+    }
+    return ctx.body
+  }
 }

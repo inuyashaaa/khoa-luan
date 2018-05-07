@@ -11,7 +11,9 @@ function initUser (router) {
   router.get('user:profile', '/profile.html', renderUserProfile)
 
   async function renderUserProfile (ctx) {
-    return ctx.render('user/profile')
+    return ctx.render('user/profile', {
+      pageTitle: 'Thông tin cá nhân - Kênh ôn thi đại học'
+    })
   }
 }
 

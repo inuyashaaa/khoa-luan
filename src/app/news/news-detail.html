@@ -11,6 +11,10 @@
             <h2 class="item-title">{{ news.title }}</h2>
             <p>{{ news.content | safe }}</p>
         </div>
+         {% if user.isAdmin %}
+        <a href="/news/edit/{{ news.slug }}" class="btn blue">Sửa tin tức</a>
+        <a href="/news/delete/{{ news._id }}" class="btn red btn-delete-new" data-idnews="{{ new._id }}">Xóa tin tức</a>
+        {% endif %}
       </div>
     </div>
   </div>

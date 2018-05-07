@@ -117,7 +117,7 @@ function initNews (router) {
   async function deleteNews (ctx) {
     const idNews = ctx.params.id
     try {
-      const news = await News.deleteOne({ _id: idNews })
+      const news = await News.update({ _id: idNews }, {$set: { state: false }})
       ctx.body = {
         success: true,
         message: 'Update news success!!!',
